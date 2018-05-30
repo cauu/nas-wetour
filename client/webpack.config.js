@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const project = require('./project.config.js')
+const theme = require('./package.json').theme;
 
 const envDevelopment = project.env === 'development'
 const envProduction = project.env === 'production'
@@ -117,17 +118,18 @@ if (envDevelopment) {
         }, {
             loader : "css-loader"
         }, {
-            loader : "less-loader",
-            options: {
-                javascriptEnabled: true
-            }
-        }, {
           loader: 'postcss-loader',
           options: {
             config: {
               path: path.join(project.basePath, 'postcss.config.js')
             }
           }
+        }, {
+            loader : "less-loader",
+            options: {
+                javascriptEnabled: true,
+                modifyVars: theme 
+            }
         }]
     })
     config.entry.main.push(
@@ -167,7 +169,10 @@ if (envProduction) {
             {
                 loader: 'less-loader',
                 options: {
-                    javascriptEnabled: true
+                    javascriptEnabled: true,
+                    modifyVars: {
+                        "@hd": "3px"
+                    }
                 }
             },
             {
