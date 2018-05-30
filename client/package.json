@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "antd": "^3.3.0",
+    "antd-mobile": "^2.1.10",
     "crypto-js": "^3.1.9-1",
     "js-cookie": "^2.2.0",
     "mobx": "^4.1.0",
@@ -51,6 +52,9 @@
     "mini-css-extract-plugin": "^0.4.0",
     "opn": "^5.2.0",
     "ora": "^2.0.0",
+    "postcss-import": "^11.1.0",
+    "postcss-loader": "^2.1.5",
+    "postcss-px-to-viewport": "0.0.3",
     "rimraf": "^2.6.2",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",

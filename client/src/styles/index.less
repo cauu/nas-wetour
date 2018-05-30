@@ -1,0 +1,55 @@
+@import './variables.less';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html {
+  font-family: Pingfang,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Wenquanyi Micro Hei","WenQuanYi Micro Hei Mono","WenQuanYi Zen Hei","WenQuanYi Zen Hei","Apple LiGothic Medium",SimHei,"ST Heiti","WenQuanYi Zen Hei Sharp";
+}
+
+body {
+  background-color: @grey-light;
+  line-height: 1.5;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  width: 750px;
+  margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
+
+  &:visited, &:active {
+    text-decoration: none;
+  }
+}
+
+a, img {
+  /* 禁止长按链接与图片弹出菜单 */
+  -webkit-touch-callout: none;
+}
+
+button {
+  &:focus {
+    outline: none;
+  }
+}
+
+input[type=text], input[type=search] {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  display: none;
+}
+
+::-webkit-input-placeholder {
+  color: #ccc;
+}

@@ -121,6 +121,13 @@ if (envDevelopment) {
             options: {
                 javascriptEnabled: true
             }
+        }, {
+          loader: 'postcss-loader',
+          options: {
+            config: {
+              path: path.join(project.basePath, 'postcss.config.js')
+            }
+          }
         }]
     })
     config.entry.main.push(
@@ -162,6 +169,14 @@ if (envProduction) {
                 options: {
                     javascriptEnabled: true
                 }
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: path.join(project.basePath, 'postcss.config.js')
+                }
+              }
             }
         ]
     })
