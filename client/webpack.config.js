@@ -128,7 +128,6 @@ if (envDevelopment) {
             loader : "less-loader",
             options: {
                 javascriptEnabled: true,
-                modifyVars: theme 
             }
         }]
     })
@@ -167,6 +166,14 @@ if (envProduction) {
                 }
             },
             {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: path.join(project.basePath, 'postcss.config.js')
+                }
+              }
+            },
+            {
                 loader: 'less-loader',
                 options: {
                     javascriptEnabled: true,
@@ -174,14 +181,6 @@ if (envProduction) {
                         "@hd": "3px"
                     }
                 }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                config: {
-                  path: path.join(project.basePath, 'postcss.config.js')
-                }
-              }
             }
         ]
     })

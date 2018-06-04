@@ -5,21 +5,15 @@ import { Button } from 'antd-mobile';
 
 import Routers from './routers'
 
-import 'antd-mobile/dist/antd-mobile.css';
+// import 'antd-mobile/dist/antd-mobile.css';
 import './styles/index.less'
 
 class App extends React.Component {
     render() {
         return (
             <div className="app-container">
-                hello
-                <Button>
-                    test
-                </Button>
+                <Routers />
             </div>
-            // <HashRouter>
-            //     <Routers />
-            // </HashRouter>
         )
     }
 }

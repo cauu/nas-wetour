@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import { HashRouter as Router, Route } from 'react-router-dom';
 
-export default class Router extends Component {
-  render() {
-    return (
-      <div>
-        hello,world
-      </div>
-    );
-  }
-}
+import Home from './pages/home';
+
+export default () => (
+  <Router>
+    <Route exact path="/" component={Home} />
+  </Router>
+);
