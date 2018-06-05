@@ -1,0 +1,48 @@
+@import '../../styles/variables.less';
+.wt-pl-header {
+  display: flex;
+  height: 360px;
+  border: 1px solid black;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  font-weight: 500;
+}
+
+.wt-pl-subtitle {
+  height: 140px;
+  padding-top: 40px;
+  text-align: center;
+  background: #fff;
+  .main {
+    font-size: 32px;
+    color: @font-color-dark;
+  }
+  .sub {
+    font-size: 18px;
+    color: @font-color-light;
+  }
+}
+
+.wt-pl-list {
+  .item {
+    height: 580px;
+    width: 100%;
+    padding: 30px;
+    background: #fff;
+    .outline-wrapper {
+      height: 400px;
+      width: 100%;
+      .title {
+      }
+    }
+    .detail-wrapper {
+      margin-top: 15px;
+      height: 90px;
+      .author {
+      }
+      .tags {
+      }
+    }
+  }
+}
