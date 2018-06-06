@@ -45,6 +45,17 @@ class PlanList extends Component {
     { title: '所有行程' }
   ]
 
+  typeText = {
+    tag: {
+      title: '主题结伴',
+      subTitle: 'THEME TOUR'
+    },
+    dest: {
+      title: '目的地结伴',
+      subTitle: 'SPOT TOUR'
+    }
+  }
+
   renderTabBar = (props) => {
     return (<Sticky>
       {
@@ -56,9 +67,14 @@ class PlanList extends Component {
     </Sticky>);
   }
 
+  onItemClick = (item) => {
+    console.log('item', item);
+  }
+
   render() {
     const { type, match } = this.props;
     const { name } = match.params;
+    const textOfType = this.typeText[type];
 
     return (
       <div>
@@ -68,10 +84,10 @@ class PlanList extends Component {
 
         <div className="wt-pl-subtitle">
           <div className="main">
-            目的地结伴
+            {textOfType['title']}
           </div>
           <div className="sub">
-            SPOT TOURS
+            {textOfType['subTitle']}
           </div>
         </div>
         <StickyContainer>
@@ -80,9 +96,9 @@ class PlanList extends Component {
             initialPage={0}
             renderTabBar={this.renderTabBar}
           >
-            <List dataSource={dataSource}/>
+            <List type="recommend" onItemClick={this.onItemClick} dataSource={dataSource}/>
 
-            <List dataSource={dataSource}/>
+            <List type="ordinary" onItemClick={this.onItemClick} dataSource={dataSource}/>
           </Tabs>
         </StickyContainer>
       </div>

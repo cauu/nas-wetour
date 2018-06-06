@@ -1,38 +1,67 @@
 import React from 'react';
 
-const Item = ({ title, startAt, author, tags }) => (
-  <div className="item">
+const OrdinaryItem = ({ title, desc, dests, startAt, author, tags, onClick }) => (
+  <div className="ordinary-item">
     <div className="outline-wrapper">
-      <div className="title">
-        {title}
-      </div>
-      <div className="time-tag">
-        {startAt}
+      <div className="avatar">
       </div>
     </div>
-    <div className="detail-wrapper">
-      <div className="detail-wrapper">
-        <div className="author">
-          <span>By </span>
-          <span>{author}</span>
-        </div>
-        <div className="tags">
-          {
-            tags && tags.map((tag) => (
-              <span>#{tag}</span>
-            ))
-          }
-        </div>
+    <div className="detail-wrapper" onClick={onClick}>
+      <div className="author">
+        {author}
+      </div>
+      <div className="dest">
+        {`${dests} | ${startAt}`}
+      </div>
+      <div className="desc">
+        ewqewqewq
+        ewqoeuwqio
+        ewqoeuwqio
+        ewqoeuwqio
+        ewqoeuwqio
+        ewqoeuwqio
+        ewqoeuwqio
+        ewqoeuwqio
+        ewqoeuwqio
+        ewqoeuwqio
       </div>
     </div>
   </div>
 );
 
-export default ({ dataSource }) => (
+const RecommendItem = ({ title, startAt, author, tags, onClick }) => (
+  <div className="recommend-item">
+    <div className="outline-wrapper" onClick={onClick}>
+      <div className="title">
+        {title}
+      </div>
+      <div className="tag">
+        {startAt}
+      </div>
+    </div>
+    <div className="detail-wrapper">
+      <div className="author">
+        <span>By </span>
+        <span>{author}</span>
+      </div>
+      <div className="tags">
+        {
+          tags && tags.map((tag) => (
+            <span>#{tag}</span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+);
+
+export default ({ type='ordinary', dataSource, onItemClick=() => {} }) => (
   <div className="wt-pl-list">
     {
-      dataSource.map((data) => (
-        <Item {...data}/>
+      type === 'recommend' && dataSource.map((data) => (
+        <RecommendItem onClick={() => onItemClick(data)} {...data}/>
+      )) || dataSource.map((data) => (
+        <OrdinaryItem onClick={() => onItemClick(data)} {...data}/>
       ))
     }
   </div>

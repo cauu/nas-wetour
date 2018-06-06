@@ -3,6 +3,7 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 
 import PlanList from '../pages/plan-list';
 import PlanDetail from '../pages/plan-detail';
+import CreatePlan from '../pages/create-plan';
 
 import './style.less';
 
@@ -30,6 +31,7 @@ export default class PlanLayout extends Component {
             <Route path={`${match.url}/tag/:name`} render={(props) => <PlanList type="tag" {...props} />} />
             <Route path={`${match.url}/dest/:name`} render={(props) => <PlanList type="dest" {...props} />} />
             <Route path={`${match.url}/detail/:id`} component={PlanDetail} />
+            <Route path={`${match.url}/create`} component={CreatePlan} />
           </React.Fragment>
         </Router>
       </GlobalContext.Provider>
