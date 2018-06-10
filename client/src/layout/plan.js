@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter as Router, Route } from 'react-router-dom';
+import { Icon } from 'antd-mobile';
+import { Slot } from 'react-slot-fill';
 
 import PlanList from '../pages/plan-list';
 import PlanDetail from '../pages/plan-detail';
@@ -20,11 +22,15 @@ export default class PlanLayout extends Component {
     return (
       <GlobalContext.Provider value={{match, location, history}}>
         <div className="wt-nav-bar">
-          <div className="btn-back" />
+          <Icon type="left" size="lg" color="#666" onClick={history.goBack}/>
           <div className="title">
+            <Slot name="TitleBar.Title">
+            </Slot>
             筛选条件
           </div>
-          <div className="extra-slot" />
+          <div className="extra-slot">
+            <Slot name="TitleBar.Extra" />
+          </div>
         </div>
         <Router>
           <React.Fragment>

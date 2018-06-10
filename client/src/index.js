@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { HashRouter } from 'react-router-dom'
+import { Provider as SlotProvider } from 'react-slot-fill';
 import { Button } from 'antd-mobile';
 
 import Routers from './routers'
@@ -11,9 +12,11 @@ import './styles/index.less'
 class App extends React.Component {
     render() {
         return (
-            <div className="app-container">
-                <Routers />
-            </div>
+            <SlotProvider>
+                <div className="app-container">
+                    <Routers />
+                </div>
+            </SlotProvider>
         )
     }
 }

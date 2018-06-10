@@ -1,3 +1,5 @@
+@import '../styles/variables.less';
+
 .wt-nav-bar {
   display: flex;
   height: 88px;
@@ -7,13 +9,15 @@
   .btn-back {
     flex: 0 0 88px;
     height: 88px;
-    border: 1px solid blueviolet;
+    color: @font-color-middle;
+    font-size: 32px;
   }
   .title {
     flex: 1;
+    font-size: 32px;
+    color: @font-color-middle;
     line-height: 88px;
     text-align: center;
-    border: 1px solid blueviolet;
   }
   .extra-slot {
     flex: 0 0 88px;

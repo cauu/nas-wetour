@@ -45,6 +45,10 @@ export default class CreatePlan extends PureComponent {
         const errFields = Object.keys(err);
         Toast.fail(err[errFields[0]].errors[0].message, 2);
       }
+      /**
+       * @todo
+       * 将表单内容提交到nas上
+       */
     });
   }
 

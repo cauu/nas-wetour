@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Carousel } from 'antd-mobile';
 
 /**
  * @desc 根据type决定调用的函数
@@ -14,7 +15,12 @@ class PlanDetail extends Component {
   render() {
     return (
       <div>
-        plandetail
+        <Carousel 
+          autoplay
+          infinite
+        >
+        </Carousel>
+        {JSON.stringify('plandetail')}
       </div>
     );
   }
