@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { createForm } from 'rc-form';
+import { Fill } from 'react-slot-fill';
 import {
   Button,
   Toast,
@@ -12,11 +13,15 @@ import {
   Radio,
   WhiteSpace
 } from 'antd-mobile';
+import NebPay from 'nebpay.js';
 
 import './style.less';
 
+const DAPP_ADDRESS = '123';
+
 const Item = List.Item;
 const RadioItem = Radio.RadioItem;
+const nebPay = new NebPay();
 
 const themes = [
   {value: 'dive', label: '潜水'},
@@ -49,6 +54,14 @@ export default class CreatePlan extends PureComponent {
        * @todo
        * 将表单内容提交到nas上
        */
+      let to = DAPP_ADDRESS;
+      let callFunc = '';
+      let callArgs = JSON.stringify([]);
+      /**
+       * @desc 一旦调用了智能合约，就会立即返回一个serialNumber
+       */
+      let serialNumber = nebPay.call(to, value, callFunc, callArgs, options);
+
     });
   }
 
@@ -56,9 +69,12 @@ export default class CreatePlan extends PureComponent {
     const { form } = this.props;
 
     const { getFieldDecorator } = form;
-    
+
     return (
       <div className="wt-cp-list-wrapper">
+        <Fill name="TitleBar.Title">
+          <div>创建行程</div>
+        </Fill>
         <List renderHeader={() => '基本信息'}>
           {
             getFieldDecorator('name', {
@@ -78,6 +94,19 @@ export default class CreatePlan extends PureComponent {
               <InputItem>
                 联系方式
               </InputItem>
+            )
+          }
+          {
+            getFieldDecorator('gender', {
+              initialValue: ['f'],
+              rules: [{required: true, message: '请输入你的性别'}]
+            })(
+              <Picker
+                data={[{label: '女', value: 'f'}, {label: '男', value: 'm'}]}
+                title="选择性别"
+              >
+                <List.Item arrow="horizontal">性别</List.Item>
+              </Picker>
             )
           }
           {

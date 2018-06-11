@@ -19,14 +19,12 @@ export default class PlanLayout extends Component {
       history
     } = this.props;
 
-    return (
+  return (
       <GlobalContext.Provider value={{match, location, history}}>
         <div className="wt-nav-bar">
           <Icon type="left" size="lg" color="#666" onClick={history.goBack}/>
           <div className="title">
-            <Slot name="TitleBar.Title">
-            </Slot>
-            筛选条件
+            <Slot name="TitleBar.Title" />
           </div>
           <div className="extra-slot">
             <Slot name="TitleBar.Extra" />

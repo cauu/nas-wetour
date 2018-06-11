@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
 import SearchResult from './result-panel';
@@ -27,7 +28,9 @@ export default class Search extends PureComponent {
 
     return (
       <div className={classnames('wt-search-wrapper', {'is-searching': searchActive})}>
-        <div className="left-wrapper" />
+        <Link to="/plan/create" className="left-wrapper">
+          发布
+        </Link>
         <div className="input-wrapper">
           <div className="icon-search" />
           <input
