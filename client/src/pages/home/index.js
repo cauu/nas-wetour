@@ -6,6 +6,8 @@ import Article from './article';
 import Recommend from './recommend';
 import Search from './search';
 
+import { listArticles } from '../../services/article';
+
 import './style.less';
 
 export default class Home extends PureComponent {
@@ -13,6 +15,12 @@ export default class Home extends PureComponent {
     { title: '推荐行程' },
     { title: '梧桐随笔' }
   ]
+
+  componentDidMount() {
+    listArticles().then((res) => {
+      debugger;
+    });
+  }
 
   renderTabBar = (props) => {
     return (<Sticky>
