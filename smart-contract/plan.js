@@ -1,14 +1,28 @@
 class Plan {
-  constructor(title, contact, gender=0, startDate, dest, endDate, avatar='', detail='', author='') {
-    this.author = author;
+  constructor(title, name, contact, gender=0, startAt, endAt, desc, dests="", tags="", imgs="") {
     this.title = title;
+    this.name = name;
     this.contact = contact;
     this.gender = gender;
-    this.avatar = avatar;
-    this.dest = dest;
-    this.detail = detail;
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.startAt = startAt;
+    this.endAt = endAt;
+    this.desc = desc;
+    this.dests = dests;
+    this.tags = tags;
+    this.imgs = imgs;
+  }
+
+  toString() {
+    return JSON.stringify(this);
+  }
+}
+
+class Article {
+  constructor(title, content, cover, author) {
+    this.title = title;
+    this.content = content;
+    this.author = author;
+    this.cover = cover;
   }
 
   toString() {
@@ -34,71 +48,126 @@ class PlanDB {
       }
     });
 
-    LocalContractStorage.defineProperty(this, 'counter', 1);
+    LocalContractStorage.defineMapProperty(this, "articles", {
+      parse: function (text) {
+        return JSON.parse(text);
+      },
+      stringify: function (o) {
+          return JSON.stringify(o);
+      }
+    });
+
+    LocalContractStorage.defineMapProperty(this, "plans", {
+      parse: function (text) {
+        return JSON.parse(text);
+      },
+      stringify: function (o) {
+          return JSON.stringify(o);
+      }
+    });
+
+    LocalContractStorage.defineProperty(this, 'counter', null);
+    LocalContractStorage.defineProperty(this, 'articleCounter', null);
   }
 
   init() {
+    this.counter = 0;
+    this.articleCounter = 0;
+  }
+
+  saveArticle(title, content, cover, author = '') {
+    if(!title) {
+      throw new Error('Article title must not be empty.');
+    }
+
+    if(!content) {
+      throw new Error('Article content must not be empty.');
+    }
+
+    author = author || Blockchain.transaction.from;
+
+    const article = new Article(title, content, cover, author);
+
+    this.articles.put(this.articleCounter, article);
+    
+    this.articleCounter = this.articleCounter * 1 + 1;
+
+    return this.articleCounter;
+  }
+
+  listArticles() {
+    const resp = [];
+
+    for(let i = 0; i <= this.articleCounter * 1; i++) {
+      if(this.articles.get(i)) {
+        resp.push(this.articles.get(i));
+      }
+    }
+
+    return resp;
   }
 
   /**
    * @param {!} title 
    * @param {*} contact 
    * @param {*} gender 性别
-   * @param {*} startDate 出发日期
-   * @param {*} endDate 结束日期
-   * @param {*} dest 目的地
-   * @param {*} avatar 头像(可为空)
-   * @param {*} detail 详情（可为空）
+   * @param {*} startAt 出发日期
+   * @param {*} endAt 结束日期
+   * @param {*} desc 介绍
+   * @param {*} dests 目的地数组(使用形如"日本,美国"这样的字符串来表示)
+   * @param {*} tags 标签，如潜水、拼车等
+   * @param {*} imgs 图片url（第一张作为头像和封面）
    */
-  save(title, contact, gender=0, startDate, dest, endDate, avatar='', detail='', author='') {
-    if(!contact || !dest || !startDate) {
-      throw new Error('Empty auther or contact or destinations or startDate.');
+  savePlan(title, name, contact, gender=0, startAt, endAt, desc, dests, tags, imgs) {
+    if(!desc || !startAt || !contact) {
+      throw new Error('联系方式、出发日期和行程介绍不能为空');
     }
 
-    if(title.length > 100 || detail.length > 500 || contact.length > 20 || dest.length > 100) {
+    if(title.length > 100 || desc.length > 500) {
       throw new Error('Content exceed length limit');
     }
 
-    const plans = this.db.get('basic') || {};
+    name = name || Blockchain.transaction.from;
 
-    author = author || Blockchain.transaction.from;
+    /**
+     * @desc 数组都使用逗号来进行分割
+     */
+    const plan = new Plan(title, name, contact, gender, startAt, endAt, desc, dests, tags, imgs);
 
-    const plan = new Plan(title, contact, gender, startDate, dest, endDate, avatar, detail, author);
+    this.plans.put(this.counter, plan);
 
-    plans[this.counter] = plan; 
+    this.counter = this.counter * 1 + 1;
 
-    this.counter++;
+    return this.counter;
+  }
+  
+  listPlans() {
+    const resp = [];
 
-    this.db.put('basic', plans);
+    for(let i = 0; i <= this.counter * 1; i++) {
+      if(this.plans.get(i)) {
+        resp.push(this.plans.get(i));
+      }
+    }
+
+    return resp;
   }
 
   /**
    * @desc
    * 最主要的需求是根据gender, startDate和dest来搜索行程
    */
-  find(query) {
-    return this.db.get('basic');
-  }
+  findPlans(dest, tag) {
+    const result = [];
 
-  /**
-   * @desc
-   * 基于b+tree为某个字段建立索引
-   * @param {*} key 索引关键字
-   * @param {*} order 顺序: 0 降序 1 升序
-   */
-  indexBy(key, order) {
-    let bucket;
-    if(!this.db.get(key)) {
-      bucket = {};
-
-      const plans = this.db.get('basic');
-
-      /**
-       * @desc 创建索引
-       */
-      Object.keys(plans).forEach((plan, idx) => {
-      });
+    for(let i = 0; i <= this.counter * 1; i++) {
+      const tmp = this.plans.get(i);
+      if(tmp && ((dest && tmp.dests.indexOf(dest) !== -1) || (tag && tmp.tags.indexOf(tag) !== -1))) {
+        result.push(tmp);
+      }
     }
+
+    return result;
   }
 }
 

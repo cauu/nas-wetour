@@ -77,6 +77,17 @@ export default class CreatePlan extends PureComponent {
         </Fill>
         <List renderHeader={() => '基本信息'}>
           {
+            getFieldDecorator('title', {
+              rules: [
+                {required: true, message: '请输入行程标题'}
+              ]
+            })(
+              <InputItem placeholder="如:澳洲2日游">
+                标题
+              </InputItem>
+            )
+          }
+          {
             getFieldDecorator('name', {
               rules: [
                 {required: true, message: '请输入昵称'}
@@ -91,7 +102,7 @@ export default class CreatePlan extends PureComponent {
             getFieldDecorator('contact', {
               rules: [{required: true, message: '请输入联系方式(wx/电话)'}]
             })(
-              <InputItem>
+              <InputItem placeholder="电话或微信(如tel123/wx321)">
                 联系方式
               </InputItem>
             )
