@@ -1,4 +1,7 @@
 import Nebulas from 'nebulas';
+import NebPay from 'nebpay.js';
+
+import { isPC } from '../utils';
 
 /**
  * @desc testnet or mainnet
@@ -12,10 +15,11 @@ const GAS_PRICE = '1000000';
 const GAS_LIMIT = '2000000';
 
 const neb = new Nebulas.Neb();
+const nebPay = new NebPay();
 
 neb.setRequest(new Nebulas.HttpRequest(net));
 
-const callGet = (callFunc, callArgs) => neb.api.call(
+const nebGet = (callFunc, callArgs) => neb.api.call(
   Account.NewAccount().getAddressString(),
   CONTRACT_ADDRESS,
   VALUE,
@@ -35,6 +39,110 @@ const callGet = (callFunc, callArgs) => neb.api.call(
   return result;
 });
 
+/**
+ * @desc 根据序列号查询交易是否成功
+ */
+const _queryInterval = async (serialNumber, cb) => {
+  try {
+    const res = await nebPay.queryPayInfo(serialNumber);
+
+    const resObj = JSON.parse(res);
+
+    if(resObj.msg === 'success') {
+      return resObj.data;
+    } else {
+      throw new Error();
+    }
+  } catch(e) {
+    return null;
+  }
+}
+
+/**
+ * @desc 获取收据(移动端)
+ */
+const _queryByHash = async (hash, timer) => {
+  const receipt = await neb.api.getTransactionReceipt({hash});
+
+  return new Promise((resolve, reject) => {
+    if(receipt.status === 1) {
+      resolve(receipt);
+    }
+    if(receipt.status === 0) {
+      reject(new Error());
+    }
+
+    resolve(null);
+  });
+}
+
+/**
+ * @desc 调用支付函数
+ * 支付成功后，如果是在pc端，则调用queryByhash函数判断支付是否成功
+ * 如果是在移动端，由于listener不可用，因此需要单独启动一个timer,
+ * 通过serialNumber去检查支付是否成功
+ * 成功时，函数返回{status: 'success', serialNumber}
+ * 失败时，函数返回{status: 'fail', serialNumber}
+ */
+const nebPost = async (callFunc, callArgs, value) => {
+  return new Promise((resolve, reject) => {
+    const serialNumber = nebPay.call(CONTRACT_ADDRESS, value, callFunc, callArgs, {
+      listener: (res) => {
+        if (!isPC()) {
+          return;
+        }
+        if (res.txhash) {
+          const hash = res.txhash;
+          let timer = setInterval(async () => {
+            try {
+              const receipt = await _queryByHash(hash);
+              if(receipt) {
+                clearInterval(timer);
+                timer = null;
+                resolve({ status: 'success', serialNumber, receipt });
+              }
+            } catch(e) {
+              clearInterval(timer);
+              timer = null;
+              reject({ status: 'fail', serialNumber });
+            }
+          }, 5000)
+        }
+      }
+    });
+
+    if (!isPC()) {
+      /**
+       * @desc 首先调用queryInterval函数，判断是否成功提交,
+       * 如果成功提交，则调用queryByHash函数获取收据
+       */
+      const queryTimer = setInterval(() => {
+        const data = await _queryInterval(serialNumber);
+        if(!!data) {
+          clearInterval(queryTimer);
+          queryTimer = null;
+          const { hash } = data;
+          let timer = setInterval(async () => {
+            try {
+              const receipt = await _queryByHash(hash);
+              if(receipt) {
+                clearInterval(timer);
+                timer = null;
+                resolve({ status: 'success', serialNumber, receipt });
+              }
+            } catch(e) {
+              clearInterval(timer);
+              timer = null;
+              reject({ status: 'fail', serialNumber });
+            }
+          }, 5000)
+        }
+      }, 3000);
+    }
+  });
+};
+
 export {
-  callGet
+  nebGet,
+  nebPost
 };

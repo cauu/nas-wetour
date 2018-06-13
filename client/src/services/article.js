@@ -1,7 +1,7 @@
-import { callGet } from './common';
+import { nebGet } from './common';
 
 async function listArticles() {
-  return await callGet('listArticles', "[]");
+  return await nebGet('listArticles', "[]");
 }
 
 export {
