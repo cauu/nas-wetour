@@ -116,7 +116,7 @@ const nebPost = async (callFunc, callArgs, value) => {
        * @desc 首先调用queryInterval函数，判断是否成功提交,
        * 如果成功提交，则调用queryByHash函数获取收据
        */
-      const queryTimer = setInterval(() => {
+      let queryTimer = setInterval(async () => {
         const data = await _queryInterval(serialNumber);
         if(!!data) {
           clearInterval(queryTimer);
