@@ -6,8 +6,6 @@ import Article from './article';
 import Recommend from './recommend';
 import Search from './search';
 
-import { listArticles } from '../../services/article';
-
 import './style.less';
 
 export default class Home extends PureComponent {
@@ -15,11 +13,6 @@ export default class Home extends PureComponent {
     { title: '推荐行程' },
     { title: '梧桐随笔' }
   ]
-
-  componentDidMount() {
-    listArticles().then((res) => {
-    });
-  }
 
   renderTabBar = (props) => {
     return (<Sticky>
@@ -42,10 +35,11 @@ export default class Home extends PureComponent {
             tabs={this.tabs}
             initialPage={0}
             renderTabBar={this.renderTabBar}
+            style={{background: 'black'}}
           >
             <Recommend />
 
-            <Article />
+            <Article articles={} />
           </Tabs>
         </StickyContainer>
       </React.Fragment>

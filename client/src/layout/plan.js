@@ -7,11 +7,17 @@ import PlanList from '../pages/plan-list';
 import PlanDetail from '../pages/plan-detail';
 import CreatePlan from '../pages/create-plan';
 
+import { listArticles } from '../services/article';
+import { listPlans } from '../services/plan';
+
 import './style.less';
 
 export const GlobalContext = React.createContext({});
 
 export default class PlanLayout extends Component {
+  articles = [];
+  plans = [];
+
   render() {
     const {
       match,
@@ -20,7 +26,13 @@ export default class PlanLayout extends Component {
     } = this.props;
 
   return (
-      <GlobalContext.Provider value={{match, location, history}}>
+      <GlobalContext.Provider 
+        value={{
+          match,
+          location,
+          history
+        }}
+      >
         <div className="wt-nav-bar">
           <Icon type="left" size="lg" color="#666" onClick={history.goBack}/>
           <div className="title">

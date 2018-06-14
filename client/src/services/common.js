@@ -8,7 +8,7 @@ import { isPC } from '../utils';
  */
 const Account = Nebulas.Account;
 const net = 'https://testnet.nebulas.io';
-const CONTRACT_ADDRESS = 'n1xYeuB2mq354nUDPo5MTNyWoC2LdX1r3vP';
+const CONTRACT_ADDRESS = 'n1qQLJtWDF1XGCV11rK6jDVAxrsabbB4bkV';
 const VALUE = '0';
 const NONCE = '0';
 const GAS_PRICE = '1000000';
@@ -63,7 +63,7 @@ const _queryInterval = async (serialNumber, cb) => {
 /**
  * @desc 获取收据(移动端)
  */
-const _queryByHash = async (hash, timer) => {
+const _queryByHash = async (hash) => {
   const receipt = await neb.api.getTransactionReceipt({hash});
 
   return new Promise((resolve, reject) => {
@@ -90,9 +90,11 @@ const nebPost = (callFunc, callArgs, value) => {
   return new Promise((resolve, reject) => {
     const serialNumber = nebPay.call(CONTRACT_ADDRESS, value, callFunc, callArgs, {
       listener: (res) => {
+        const ispc = isPC();
         if (!isPC()) {
           return;
         }
+
         if (res.txhash) {
           const hash = res.txhash;
 
@@ -101,8 +103,8 @@ const nebPost = (callFunc, callArgs, value) => {
           let timer = setInterval(async () => {
             try {
               if(retry > MAX_RETRY) throw new Error('Timeout Error');
-              retry++;
               const receipt = await _queryByHash(hash);
+              retry++;
               if(receipt) {
                 clearInterval(timer);
                 timer = null;
@@ -128,8 +130,8 @@ const nebPost = (callFunc, callArgs, value) => {
       let queryTimer = setInterval(async () => {
         try {
           if(retry > MAX_RETRY) throw new Error('Timeout Error');
-          retry++;
           const data = await _queryInterval(serialNumber);
+          retry++;
           if(!!data) {
             clearInterval(queryTimer);
             queryTimer = null;
@@ -138,8 +140,8 @@ const nebPost = (callFunc, callArgs, value) => {
             let timer = setInterval(async () => {
               try {
                 if(retry > MAX_RETRY) throw new Error('Timeout Error');
-                retry++;
                 const receipt = await _queryByHash(hash);
+                retry++;
                 if(receipt) {
                   clearInterval(timer);
                   timer = null;

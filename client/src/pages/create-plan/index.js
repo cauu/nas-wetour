@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import { createForm } from 'rc-form';
 import { Fill } from 'react-slot-fill';
 import {
   Button,
   Toast,
+  ActivityIndicator,
   List,
   ImagePicker,
   InputItem,
@@ -31,7 +33,8 @@ const themes = [
 @createForm()
 export default class CreatePlan extends PureComponent {
   state = {
-    theme: ''
+    theme: '',
+    loading: false
   }
 
   onThemeChecked = (value) => {
@@ -47,12 +50,37 @@ export default class CreatePlan extends PureComponent {
       if(err) {
         const errFields = Object.keys(err);
         Toast.fail(err[errFields[0]].errors[0].message, 2);
+        return;
       }
 
-      console.log('loading');
-      const result = await createPlan('');
-      console.log('loading end');
-      debugger;
+      this.setState({
+        loading: true
+      });
+
+      try {
+        const result = await createPlan(
+          value.title,
+          value.name,
+          value.contact,
+          value.gender,
+          moment(value.startAt).format('YYYY-MM-DD'),
+          moment(value.endAt).format('YYYY-MM-DD'),
+          value.desc,
+          "",
+          this.state.theme,
+          ""
+        );
+
+        this.setState({
+          loading: false
+        }, () => {
+          Toast.success('行程创建成功', 5, () => {}, true);
+        });
+      } catch(e) {
+        this.setState({
+          loading: false
+        });
+      }
     });
   }
 
@@ -63,6 +91,7 @@ export default class CreatePlan extends PureComponent {
 
     return (
       <div className="wt-cp-list-wrapper">
+        <ActivityIndicator animating={this.state.loading} toast text="正在提交" />
         <Fill name="TitleBar.Title">
           <div>创建行程</div>
         </Fill>
@@ -151,7 +180,7 @@ export default class CreatePlan extends PureComponent {
         </List>
         <List renderHeader={() => '行程详情'}>
           {
-            getFieldDecorator('description', {
+            getFieldDecorator('desc', {
               rules: [{ required: true, message: '请填写行程介绍' }]
             })(
               <TextareaItem 
