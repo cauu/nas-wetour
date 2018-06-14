@@ -1,6 +1,10 @@
 import { nebGet, nebPost } from './common';
 
-async function createPlan() {
+/**
+ * @
+ */
+function createPlan(args) {
+  return nebPost('savePlan', '', 0.00001);
 }
 
 export {

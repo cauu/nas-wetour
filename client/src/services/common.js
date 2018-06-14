@@ -14,6 +14,8 @@ const NONCE = '0';
 const GAS_PRICE = '1000000';
 const GAS_LIMIT = '2000000';
 
+const MAX_RETRY = 30;
+
 const neb = new Nebulas.Neb();
 const nebPay = new NebPay();
 
@@ -84,7 +86,7 @@ const _queryByHash = async (hash, timer) => {
  * 成功时，函数返回{status: 'success', serialNumber}
  * 失败时，函数返回{status: 'fail', serialNumber}
  */
-const nebPost = async (callFunc, callArgs, value) => {
+const nebPost = (callFunc, callArgs, value) => {
   return new Promise((resolve, reject) => {
     const serialNumber = nebPay.call(CONTRACT_ADDRESS, value, callFunc, callArgs, {
       listener: (res) => {
@@ -93,8 +95,13 @@ const nebPost = async (callFunc, callArgs, value) => {
         }
         if (res.txhash) {
           const hash = res.txhash;
+
+          let retry = 0;
+
           let timer = setInterval(async () => {
             try {
+              if(retry > MAX_RETRY) throw new Error('Timeout Error');
+              retry++;
               const receipt = await _queryByHash(hash);
               if(receipt) {
                 clearInterval(timer);
@@ -104,7 +111,7 @@ const nebPost = async (callFunc, callArgs, value) => {
             } catch(e) {
               clearInterval(timer);
               timer = null;
-              reject({ status: 'fail', serialNumber });
+              reject({ status: 'fail', serialNumber, msg: e.message });
             }
           }, 5000)
         }
@@ -116,26 +123,39 @@ const nebPost = async (callFunc, callArgs, value) => {
        * @desc 首先调用queryInterval函数，判断是否成功提交,
        * 如果成功提交，则调用queryByHash函数获取收据
        */
+      let retry = 0;
+
       let queryTimer = setInterval(async () => {
-        const data = await _queryInterval(serialNumber);
-        if(!!data) {
-          clearInterval(queryTimer);
-          queryTimer = null;
-          const { hash } = data;
-          let timer = setInterval(async () => {
-            try {
-              const receipt = await _queryByHash(hash);
-              if(receipt) {
+        try {
+          if(retry > MAX_RETRY) throw new Error('Timeout Error');
+          retry++;
+          const data = await _queryInterval(serialNumber);
+          if(!!data) {
+            clearInterval(queryTimer);
+            queryTimer = null;
+            retry = 0;
+            const { hash } = data;
+            let timer = setInterval(async () => {
+              try {
+                if(retry > MAX_RETRY) throw new Error('Timeout Error');
+                retry++;
+                const receipt = await _queryByHash(hash);
+                if(receipt) {
+                  clearInterval(timer);
+                  timer = null;
+                  resolve({ status: 'success', serialNumber, receipt });
+                }
+              } catch(e) {
                 clearInterval(timer);
                 timer = null;
-                resolve({ status: 'success', serialNumber, receipt });
+                reject({ status: 'fail', serialNumber, msg: e.message });
               }
-            } catch(e) {
-              clearInterval(timer);
-              timer = null;
-              reject({ status: 'fail', serialNumber });
-            }
-          }, 5000)
+            }, 5000)
+          }
+        } catch(e) {
+          clearInterval(queryTimer);
+          queryTimer = null;
+          reject({ status: 'fail', serialNumber, msg: e.message });
         }
       }, 3000);
     }

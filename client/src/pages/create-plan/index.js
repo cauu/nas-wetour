@@ -13,15 +13,13 @@ import {
   Radio,
   WhiteSpace
 } from 'antd-mobile';
-import NebPay from 'nebpay.js';
+
+import { createPlan } from '../../services/plan';
 
 import './style.less';
 
-const DAPP_ADDRESS = '123';
-
 const Item = List.Item;
 const RadioItem = Radio.RadioItem;
-const nebPay = new NebPay();
 
 const themes = [
   {value: 'dive', label: '潜水'},
@@ -45,23 +43,16 @@ export default class CreatePlan extends PureComponent {
   onSubmit = () => {
     const { form } = this.props;
 
-    form.validateFields((err, value) => {
+    form.validateFields(async (err, value) => {
       if(err) {
         const errFields = Object.keys(err);
         Toast.fail(err[errFields[0]].errors[0].message, 2);
       }
-      /**
-       * @todo
-       * 将表单内容提交到nas上
-       */
-      let to = DAPP_ADDRESS;
-      let callFunc = '';
-      let callArgs = JSON.stringify([]);
-      /**
-       * @desc 一旦调用了智能合约，就会立即返回一个serialNumber
-       */
-      let serialNumber = nebPay.call(to, value, callFunc, callArgs, options);
 
+      console.log('loading');
+      const result = await createPlan('');
+      console.log('loading end');
+      debugger;
     });
   }
 

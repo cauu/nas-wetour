@@ -18,7 +18,6 @@ export default class Home extends PureComponent {
 
   componentDidMount() {
     listArticles().then((res) => {
-      debugger;
     });
   }
 
