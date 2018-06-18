@@ -39,7 +39,7 @@ export default class Home extends PureComponent {
           >
             <Recommend />
 
-            <Article articles={} />
+            <Article />
           </Tabs>
         </StickyContainer>
       </React.Fragment>

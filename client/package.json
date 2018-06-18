@@ -25,6 +25,8 @@
     "object-assign": "^4.1.1",
     "promise": "^8.0.1",
     "prop-types": "^15.6.1",
+    "qiniu": "^7.2.0",
+    "qiniu-js": "^2.3.0",
     "rc-form": "^2.2.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

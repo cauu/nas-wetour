@@ -16,6 +16,7 @@ import {
   WhiteSpace
 } from 'antd-mobile';
 
+import { uploadImg } from '../../services/upload';
 import { createPlan } from '../../services/plan';
 
 import './style.less';
@@ -34,13 +35,31 @@ const themes = [
 export default class CreatePlan extends PureComponent {
   state = {
     theme: '',
-    loading: false
+    loading: false,
+    files: []
   }
 
   onThemeChecked = (value) => {
     this.setState(({theme: prevTheme}) => ({
       theme: prevTheme === value ? '' : value
     }));
+  }
+
+  onImgPick = async (files, type, index) => {
+    if(files.length < this.state.files.length) {
+      this.setState({
+        files
+      });
+      return;
+    }
+    const newFile = files && files.length && files[files.length - 1];
+    const uploaded = await uploadImg(newFile.file, newFile.name, (res) => {console.log('uploading', res)});
+    this.setState({
+      files: [
+        ...files.slice(0, files.length - 1),
+        {...files[files.length - 1], url: 'http://paga738og.bkt.clouddn.com/' + uploaded.key}
+      ]
+    });
   }
 
   onSubmit = () => {
@@ -68,7 +87,7 @@ export default class CreatePlan extends PureComponent {
           value.desc,
           "",
           this.state.theme,
-          ""
+          this.state.files.map((f) => f.url).join(',')
         );
 
         this.setState({
@@ -192,7 +211,11 @@ export default class CreatePlan extends PureComponent {
         </List>
 
         <List renderHeader={() => '照片'}>
-          <ImagePicker style={{padding: '5px 0px'}} />
+          <ImagePicker
+            files={this.state.files}
+            style={{padding: '5px 0px'}}
+            onChange={this.onImgPick}
+          />
         </List>
 
         <WhiteSpace size="lg" />
