@@ -6,6 +6,8 @@ import Article from './article';
 import Recommend from './recommend';
 import Search from './search';
 
+import { extractDests } from '../../utils/index';
+
 import './style.less';
 
 export default class Home extends PureComponent {

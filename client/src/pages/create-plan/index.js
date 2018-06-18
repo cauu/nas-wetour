@@ -18,6 +18,7 @@ import {
 
 import { uploadImg } from '../../services/upload';
 import { createPlan } from '../../services/plan';
+import { extractDests } from '../../utils';
 
 import './style.less';
 
@@ -85,7 +86,7 @@ export default class CreatePlan extends PureComponent {
           moment(value.startAt).format('YYYY-MM-DD'),
           moment(value.endAt).format('YYYY-MM-DD'),
           value.desc,
-          "",
+          extractDests(value.desc).join(',') || '',
           this.state.theme,
           this.state.files.map((f) => f.url).join(',')
         );
