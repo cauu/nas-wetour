@@ -12,17 +12,20 @@ import './style.less';
 export default class Search extends PureComponent {
   state = {
     searchActive: false,
+    inputText: '',
     searched: []
   }
 
   onInputActive = () => {
     this.setState({
+      inputText: '',
       searchActive: true
     });
   }
 
   onInputDismiss = () => {
     this.setState({
+      inputText: '',
       searchActive: false
     });
   }
@@ -30,6 +33,7 @@ export default class Search extends PureComponent {
   onInputChange = (event) => {
     if(!event.target.value) {
       this.setState({
+        inputText: '',
         searched: []
       });
       return;
@@ -38,12 +42,16 @@ export default class Search extends PureComponent {
     const { autoCompleteDest } = this.props.destStore;
 
     this.setState({
+      inputText: event.target.value,
       searched: autoCompleteDest(event.target.value)
     });
   }
 
   render() {
-    const { searchActive, searched } = this.state;
+    const { destStore } = this.props;
+    const { searchActive, searched, inputText } = this.state;
+
+    const { hotDest } = destStore;
 
     return (
       <div className={classnames('wt-search-wrapper', {'is-searching': searchActive})}>
@@ -53,6 +61,7 @@ export default class Search extends PureComponent {
         <div className="input-wrapper">
           <div className="icon-search" />
           <input
+            value={inputText}
             onClick={this.onInputActive}
             onChange={this.onInputChange}
             className="input-search"
@@ -67,6 +76,9 @@ export default class Search extends PureComponent {
           }
         </div>
         <SearchResult
+          showPlaceHolder={inputText && !searched.length}
+          placeholder="没有了"
+          defaultData={hotDest}
           data={searched}
           visible={searchActive} />
       </div>
