@@ -13,7 +13,7 @@ const project = require('../project.config')
 app.use(compress())
 
 const devMiddleware = webpackDevMiddleware(compiler, {
-    quiet   : false,
+quiet   : false,
     noInfo  : false,
     lazy    : false,
     headers : {'Access-Control-Allow-Origin': '*'},

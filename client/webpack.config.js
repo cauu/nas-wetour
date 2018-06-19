@@ -76,6 +76,10 @@ const config = {
             }
         }
     },
+    node: {
+      fs: "empty",
+      child_process: "empty"
+    },
     performance: {
         hints: false
     },
