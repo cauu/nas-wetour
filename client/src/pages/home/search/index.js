@@ -1,14 +1,18 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
+import { observer, inject } from 'mobx-react';
 import classnames from 'classnames';
 
 import SearchResult from './result-panel';
 
 import './style.less';
 
+@inject('destStore')
+@observer
 export default class Search extends PureComponent {
   state = {
-    searchActive: false
+    searchActive: false,
+    searched: []
   }
 
   onInputActive = () => {
@@ -23,8 +27,16 @@ export default class Search extends PureComponent {
     });
   }
 
+  onInputChange = (event) => {
+    const { autoCompleteDest } = this.props.destStore;
+
+    this.setState({
+      searched: autoCompleteDest(event.target.value)
+    });
+  }
+
   render() {
-    const { searchActive } = this.state;
+    const { searchActive, searched } = this.state;
 
     return (
       <div className={classnames('wt-search-wrapper', {'is-searching': searchActive})}>
@@ -35,6 +47,7 @@ export default class Search extends PureComponent {
           <div className="icon-search" />
           <input
             onClick={this.onInputActive}
+            onChange={this.onInputChange}
             className="input-search"
             placeholder="请输入目的地、主题"
           />
@@ -46,7 +59,7 @@ export default class Search extends PureComponent {
               <div>me</div>
           }
         </div>
-        <SearchResult visible={searchActive} />
+        <SearchResult data={searched.map((s) => s.name)} visible={searchActive} />
       </div>
     );
   }

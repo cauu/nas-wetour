@@ -13,12 +13,16 @@ const Item = ({ children, ...props }) => (
   </div>
 );
 
-export default ({ visible }) => (
+export default ({ data, visible }) => (
   <div className={classnames('wt-search-result-wrapper', {'visible': visible })}>
     <Row>
-      <Item>
-        test
-      </Item>
+      {
+        (data || []).map((d, index) => (
+          <Item key={index}>
+            {d}
+          </Item>
+        ))
+      }
     </Row>
   </div>
 );

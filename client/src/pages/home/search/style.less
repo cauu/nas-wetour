@@ -61,6 +61,7 @@
   height: 0;
   opacity: 0;
   pointer-events: none;
+  overflow-y: scroll;
   &.visible {
     opacity: 1;
     height: 1206px;
@@ -68,6 +69,7 @@
   }
   .row {
     display: flex;
+    flex-wrap: wrap;
     height: 80px;
     align-items: center;
     .item {
@@ -76,6 +78,7 @@
       line-height: 60px;
       min-width: 160px;
       padding: 0 17px;
+      margin: 10px 5px;
       font-size: 26px;
       border: 1px solid @green-light;
       color: @font-color-light;

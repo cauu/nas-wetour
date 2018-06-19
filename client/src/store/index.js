@@ -1,6 +1,17 @@
-import { useStrict } from 'mobx';
+import PlanStore from './plan';
+import ArticleStore from './article';
+import DestStore from './dest';
 
-useStrict(true);
+// export default class RootStore {
+//   @observable planStore = new PlanStore();
+//   @observable articleStore = new ArticleStore();
+//   @observable destStore = new DestStore();
+// }
 
-export { default as planStore } from './plan.js';
-export { default as articleStore } from './article.js';
+const store = {
+  planStore: new PlanStore(),
+  articleStore: new ArticleStore(),
+  destStore: new DestStore()
+};
+
+export default store;
