@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd-mobile';
 import { StickyContainer, Sticky } from 'react-sticky';
@@ -7,30 +8,11 @@ import List from './list';
 
 import './style.less'
 
-const dataSource = [
-  {
-    title: '澳大利亚房车自由行',
-    author: '马丁',
-    tags: ['123','421','ewqe','ewq'],
-    startAt: '2018-12-28',
-  },
-  {
-    title: '澳大利亚房车自由行',
-    author: '马丁',
-    tags: ['123','421','ewqe','ewq'],
-    startAt: '2018-12-28',
-  },
-  {
-    title: '澳大利亚房车自由行',
-    author: '马丁',
-    tags: ['123','421','ewqe','ewq'],
-    startAt: '2018-12-28'
-  }
-];
-
 /**
  * @desc 根据type决定调用的函数
  */
+@inject('planStore')
+@observer
 class PlanList extends Component {
   static propTypes = {
     type: PropTypes.string
@@ -56,6 +38,24 @@ class PlanList extends Component {
     }
   }
 
+  constructor(props) {
+    super(props);
+
+    const { planStore, match, type } = props;
+
+    const { name } = match.params;
+
+    this.getPlans(type)(name);
+  }
+
+  getPlans = (type) => {
+    const { planStore } = this.props;
+    return (name) => type === 'tag' 
+      ? planStore.searchPlanByTag(name)
+      : planStore.searchPlanByDest(name)
+    ;
+  }
+
   renderTabBar = (props) => {
     return (<Sticky>
       {
@@ -72,9 +72,10 @@ class PlanList extends Component {
   }
 
   render() {
-    const { type, match } = this.props;
+    const { type, match, planStore } = this.props;
     const { name } = match.params;
     const textOfType = this.typeText[type];
+    const planList = planStore.searchPlans.toJS();
 
     return (
       <div>
@@ -96,9 +97,9 @@ class PlanList extends Component {
             initialPage={0}
             renderTabBar={this.renderTabBar}
           >
-            <List type="recommend" onItemClick={this.onItemClick} dataSource={dataSource}/>
+            <List type="recommend" onItemClick={this.onItemClick} dataSource={planList}/>
 
-            <List type="ordinary" onItemClick={this.onItemClick} dataSource={dataSource}/>
+            <List type="ordinary" onItemClick={this.onItemClick} dataSource={planList}/>
           </Tabs>
         </StickyContainer>
       </div>

@@ -1,4 +1,9 @@
-import {observable, computed, reaction} from 'mobx';
+import {observable, computed, reaction, action, runInAction} from 'mobx';
+import {
+  listPlans,
+  getPlanByDest,
+  getPlanByTag
+} from '../services/plan';
 
 /**
  * @todo 
@@ -8,4 +13,44 @@ import {observable, computed, reaction} from 'mobx';
  * 4. 当前行程detail
  */
 export default class PlanStore {
+  @observable planList = [];
+  @observable searchPlans = [];
+
+  @action getAllPlans = async () => {
+    const plans = await listPlans();
+
+    runInAction('update planList', () => {
+      this.planList.replace(plans);
+    });
+  }
+
+  @action searchPlanByDest = async (dest) => {
+    const plans = await getPlanByDest(dest);
+
+    runInAction('update searchedPlans', () => {
+      this.searchPlans.replace(plans.map((plan) => {
+        return {
+          ...plan,
+          tags: plan.tags.split(','),
+          dests: plan.dests.split(','),
+          imgs: plan.imgs.split(',')
+        };
+      }));
+    });
+  }
+
+  @action searchPlanByTag = async (tag) => {
+    const plans = await getPlanByTag(tag);
+
+    runInAction('update searchedPlans', () => {
+      this.searchPlans.replace(plans.map((plan) => {
+        return {
+          ...plan,
+          tags: plan.tags.split(','),
+          dests: plan.dests.split(','),
+          imgs: plan.imgs.split(',')
+        };
+      }));
+    });
+  }
 }

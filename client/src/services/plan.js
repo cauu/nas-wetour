@@ -18,11 +18,30 @@ function createPlan(
   ;
 }
 
-function listPlans() {
-  return nebGet('listPlans', '[]');
+function listPlans(tag='', dest='') {
+  return nebGet(
+    'listPlans', 
+    `["${tag}", "${dest}"]`
+  );
+}
+
+function getPlanByDest(dest='') {
+  return nebGet(
+    'findPlans',
+    `["${dest}", ""]`
+  )
+}
+
+function getPlanByTag(tag='') {
+  return nebGet(
+    'findPlans',
+    `["", "${tag}"]`
+  );
 }
 
 export {
   createPlan,
-  listPlans
+  listPlans,
+  getPlanByDest,
+  getPlanByTag
 };

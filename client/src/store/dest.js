@@ -1,4 +1,4 @@
-import {observable, computed, reaction} from 'mobx';
+import {observable, computed, reaction, action} from 'mobx';
 import _ from 'lodash';
 
 import dests from '../constant/dest.json';
@@ -37,7 +37,7 @@ export default class DestStore {
    * @desc
    * 获取包含关键字的所有地点,并按parent进行分类
    */
-  autoCompleteDest = (input) => {
+  @action autoCompleteDest = (input) => {
     const hasInput = (text) => text.includes(input);
 
     return this.destList.filter(({name, children}) => {

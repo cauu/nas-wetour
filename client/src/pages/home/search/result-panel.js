@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 
 const Row = ({children}) => (
@@ -7,10 +8,10 @@ const Row = ({children}) => (
   </div>
 );
 
-const Item = ({ children, ...props }) => (
-  <div {...props} className="item">
+const Item = ({ to, children, ...props }) => (
+  <Link to={to} {...props} className="item">
     {children}
-  </div>
+  </Link>
 );
 
 const renderItemList = (list=[]) => (
@@ -25,7 +26,7 @@ const renderItemList = (list=[]) => (
         {
           d.children.map((c, j) => {
             return (
-              <Item key={j}>
+              <Item to={`/plan/dest/${c.name}`} key={j}>
                 {c.name}
               </Item>
             );

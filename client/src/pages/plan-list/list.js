@@ -14,16 +14,7 @@ const OrdinaryItem = ({ title, desc, dests, startAt, author, tags, onClick }) =>
         {`${dests} | ${startAt}`}
       </div>
       <div className="desc">
-        ewqewqewq
-        ewqoeuwqio
-        ewqoeuwqio
-        ewqoeuwqio
-        ewqoeuwqio
-        ewqoeuwqio
-        ewqoeuwqio
-        ewqoeuwqio
-        ewqoeuwqio
-        ewqoeuwqio
+        {desc}
       </div>
     </div>
   </div>
