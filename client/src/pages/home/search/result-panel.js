@@ -15,14 +15,27 @@ const Item = ({ children, ...props }) => (
 
 export default ({ data, visible }) => (
   <div className={classnames('wt-search-result-wrapper', {'visible': visible })}>
-    <Row>
-      {
-        (data || []).map((d, index) => (
-          <Item key={index}>
-            {d}
-          </Item>
-        ))
-      }
-    </Row>
+    {
+      (data || []).map((d, i) => (
+        <Row key={i}>
+          <div className="header-wrapper">
+            <span className="text">
+              {d.name}
+            </span>
+          </div>
+          <div className="item-wrapper">
+            {
+              d.children.map((c, j) => {
+                return (
+                  <Item key={j}>
+                    {c.name}
+                  </Item>
+                );
+              })
+            }
+          </div>
+        </Row>
+      ))
+    }
   </div>
 );

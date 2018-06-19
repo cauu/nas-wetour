@@ -28,6 +28,13 @@ export default class Search extends PureComponent {
   }
 
   onInputChange = (event) => {
+    if(!event.target.value) {
+      this.setState({
+        searched: []
+      });
+      return;
+    }
+
     const { autoCompleteDest } = this.props.destStore;
 
     this.setState({
@@ -59,7 +66,9 @@ export default class Search extends PureComponent {
               <div>me</div>
           }
         </div>
-        <SearchResult data={searched.map((s) => s.name)} visible={searchActive} />
+        <SearchResult
+          data={searched}
+          visible={searchActive} />
       </div>
     );
   }
