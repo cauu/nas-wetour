@@ -63,3 +63,4 @@ typings/
 dll
 .babelrc
 dist
+.vscode
