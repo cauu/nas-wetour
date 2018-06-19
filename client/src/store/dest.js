@@ -8,6 +8,7 @@ import dests from '../constant/dest.json';
  * 1. 初始化目的地字典
  * 2. 目的地自动完成方法
  * 3. 从text中提取目的地关键字
+ * 4. 区分国内和国外景点
  */
 export default class DestStore {
   @observable destObj = dests;
