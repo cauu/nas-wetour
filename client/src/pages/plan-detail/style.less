@@ -1,0 +1,77 @@
+@import '../../styles/variables.less';
+
+.plan-detail-wrapper {
+  .content-wrapper {
+    background:#fff;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    .row {
+      display: flex;
+      font-size: 34px;
+    }
+
+    .title {
+      justify-content: center;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 400;
+    }
+
+    .gender {
+      flex-basis: 5%;
+      color: @font-color-middle;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+      margin-right: 2%;
+      &.male {
+        background-image: url('../../images/icon-male.png');
+      }
+      &.female {
+        background-image: url('../../images/icon-female.png');
+      }
+    }
+    .name {
+      font-size: 28px;
+      flex-basis: 8%;
+      color: @font-color-middle;
+    }
+    .contact {
+      font-size: 28px;
+      flex-basis: 85%;
+      text-align: right;
+      color: @font-color-middle;
+    }
+    .date {
+      font-size: 30px;
+      line-height: 135px;
+      justify-content: space-between;
+      border-bottom: 1px solid @grey-middle;
+    }
+    .tag {
+      line-height: 150px;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid @grey-middle;
+    }
+    .desc {
+      flex-direction: column;
+      >.desc-title {
+        padding-top: 50px;
+        text-align: center;
+        font-size: 32px;
+      }
+      >.desc-subtitle {
+        text-align: center;
+        font-size: 20px;
+        color: @font-color-light;
+        padding-bottom: 50px;
+      }
+      >.desc-detail {
+        text-align: center;
+        font-size: 28px;
+      }
+    }
+  }
+}

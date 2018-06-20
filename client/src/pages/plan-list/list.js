@@ -1,48 +1,53 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const OrdinaryItem = ({ title, desc, dests, startAt, author, tags, onClick }) => (
+const OrdinaryItem = ({ id, title, desc, dests, startAt, author, tags, onClick }) => (
   <div className="ordinary-item">
-    <div className="outline-wrapper">
-      <div className="avatar">
+    <Link to={`/plan/detail/${id}`}>
+      <div className="outline-wrapper">
+        <div className="avatar">
+        </div>
       </div>
-    </div>
-    <div className="detail-wrapper" onClick={onClick}>
-      <div className="author">
-        {author}
+      <div className="detail-wrapper" onClick={onClick}>
+        <div className="author">
+          {author}
+        </div>
+        <div className="dest">
+          {`${dests} | ${startAt}`}
+        </div>
+        <div className="desc">
+          {desc}
+        </div>
       </div>
-      <div className="dest">
-        {`${dests} | ${startAt}`}
-      </div>
-      <div className="desc">
-        {desc}
-      </div>
-    </div>
+    </Link>
   </div>
 );
 
-const RecommendItem = ({ title, startAt, author, tags, onClick }) => (
+const RecommendItem = ({ id, title, startAt, author, tags, onClick }) => (
   <div className="recommend-item">
-    <div className="outline-wrapper" onClick={onClick}>
-      <div className="title">
-        {title}
+    <Link to={`/plan/detail/${id}`}>
+      <div className="outline-wrapper" onClick={onClick}>
+        <div className="title">
+          {title}
+        </div>
+        <div className="tag">
+          {startAt}
+        </div>
       </div>
-      <div className="tag">
-        {startAt}
+      <div className="detail-wrapper">
+        <div className="author">
+          <span>By </span>
+          <span>{author}</span>
+        </div>
+        <div className="tags">
+          {
+            tags && tags.map((tag) => (
+              <span>#{tag}</span>
+            ))
+          }
+        </div>
       </div>
-    </div>
-    <div className="detail-wrapper">
-      <div className="author">
-        <span>By </span>
-        <span>{author}</span>
-      </div>
-      <div className="tags">
-        {
-          tags && tags.map((tag) => (
-            <span>#{tag}</span>
-          ))
-        }
-      </div>
-    </div>
+    </Link>
   </div>
 );
 

@@ -2,7 +2,8 @@ import {observable, computed, reaction, action, runInAction} from 'mobx';
 import {
   listPlans,
   getPlanByDest,
-  getPlanByTag
+  getPlanByTag,
+  getPlanById
 } from '../services/plan';
 
 /**
@@ -15,13 +16,21 @@ import {
 export default class PlanStore {
   @observable planList = [];
   @observable searchPlans = [];
-
+  @observable currPlan = {};
   formatPlan = (plan) => ({
     ...plan,
     tags: plan.tags.split(','),
     dests: plan.dests.split(','),
     imgs: plan.imgs.split(',')
   })
+
+  @action getPlanById = async (id) => {
+    const plan = await getPlanById(id);
+
+    runInAction('update currPlan', () => {
+      this.currPlan = this.formatPlan(plan);
+    });
+  }
 
   @action getAllPlans = async () => {
     const plans = await listPlans();

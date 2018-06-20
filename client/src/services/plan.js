@@ -39,9 +39,17 @@ function getPlanByTag(tag='') {
   );
 }
 
+function getPlanById(id='') {
+  return nebGet(
+    'getPlanById',
+    `["${id}"]`
+  );
+}
+
 export {
   createPlan,
   listPlans,
   getPlanByDest,
-  getPlanByTag
+  getPlanByTag,
+  getPlanById
 };

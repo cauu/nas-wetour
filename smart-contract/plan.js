@@ -1,5 +1,6 @@
 class Plan {
-  constructor(title, name, contact, gender=0, startAt, endAt, desc, dests="", tags="", imgs="") {
+  constructor(id, title, name, contact, gender=0, startAt, endAt, desc, dests="", tags="", imgs="") {
+    this.id = id;
     this.title = title;
     this.name = name;
     this.contact = contact;
@@ -132,13 +133,37 @@ class PlanDB {
     /**
      * @desc 数组都使用逗号来进行分割
      */
-    const plan = new Plan(title, name, contact, gender, startAt, endAt, desc, dests, tags, imgs);
+    const plan = new Plan(this.counter, title, name, contact, gender, startAt, endAt, desc, dests, tags, imgs);
 
     this.plans.put(this.counter, plan);
 
     this.counter = this.counter * 1 + 1;
 
     return this.counter;
+  }
+
+  recommendPlan(id) {
+    const plan = this.plans.get(id);
+    if(plan) {
+      plan.recommend = true;
+      this.plans.put(id, plan);
+      return plan;
+    }
+  }
+
+  unrecommendPlan(id) {
+    const plan = this.plans.get(id);
+    if(plan) {
+      plan.recommend = false;
+      this.plans.put(id, plan);
+      return plan;
+    }
+  }
+
+  getPlanById(id) {
+    if(this.plans.get(id)) {
+      return this.plans.get(id);
+    }
   }
   
   listPlans() {

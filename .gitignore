@@ -64,3 +64,4 @@ dll
 .babelrc
 dist
 .vscode
+.DS_Store
