@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { observer, inject } from 'mobx-react';
 import { Tabs } from 'antd-mobile';
 import { StickyContainer, Sticky } from 'react-sticky';
 
@@ -10,11 +12,25 @@ import { extractDests } from '../../utils/index';
 
 import './style.less';
 
+@inject('planStore', 'articleStore')
+@observer
 export default class Home extends PureComponent {
+  static propTypes = {
+    planStore: PropTypes.object,
+    articleStore: PropTypes.object
+  }
+
   tabs = [
     { title: '推荐行程' },
     { title: '梧桐随笔' }
   ]
+
+  constructor(props) {
+    super(props);
+
+    props.planStore.getAllPlans();
+    props.articleStore.getAllArticles();
+  }
 
   renderTabBar = (props) => {
     return (<Sticky>
@@ -28,6 +44,10 @@ export default class Home extends PureComponent {
   }
 
   render() {
+    const { planStore, articleStore } = this.props;
+    const planList = planStore.planList.toJS();
+    const articleList = articleStore.articleList.toJS();
+
     return (
       <React.Fragment>
         <Search />
@@ -39,9 +59,9 @@ export default class Home extends PureComponent {
             renderTabBar={this.renderTabBar}
             style={{background: 'black'}}
           >
-            <Recommend />
+            <Recommend dataSource={planList} />
 
-            <Article />
+            <Article articles={articleList} />
           </Tabs>
         </StickyContainer>
       </React.Fragment>

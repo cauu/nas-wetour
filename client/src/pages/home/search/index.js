@@ -17,10 +17,12 @@ export default class Search extends PureComponent {
   }
 
   onInputActive = () => {
-    this.setState({
-      inputText: '',
-      searchActive: true
-    });
+    if(!this.state.searchActive) {
+      this.setState({
+        inputText: '',
+        searchActive: true
+      });
+    }
   }
 
   onInputDismiss = () => {

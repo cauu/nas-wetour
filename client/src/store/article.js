@@ -1,4 +1,5 @@
-import {observable, computed, reaction} from 'mobx';
+import { observable, action, reaction, runInAction } from 'mobx';
+import { listArticles } from '../services/article';
 
 /**
  * @todo 
@@ -6,4 +7,13 @@ import {observable, computed, reaction} from 'mobx';
  * 2. article详情
  */
 export default class ArticleStore {
+  @observable articleList = [];
+
+  @action getAllArticles = async () => {
+    const articles = await listArticles();
+
+    runInAction('update, articleList', () => {
+      this.articleList.replace(articles);
+    });
+  }
 }

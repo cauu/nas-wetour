@@ -16,11 +16,18 @@ export default class PlanStore {
   @observable planList = [];
   @observable searchPlans = [];
 
+  formatPlan = (plan) => ({
+    ...plan,
+    tags: plan.tags.split(','),
+    dests: plan.dests.split(','),
+    imgs: plan.imgs.split(',')
+  })
+
   @action getAllPlans = async () => {
     const plans = await listPlans();
 
     runInAction('update planList', () => {
-      this.planList.replace(plans);
+      this.planList.replace(plans.map(this.formatPlan));
     });
   }
 
@@ -28,14 +35,7 @@ export default class PlanStore {
     const plans = await getPlanByDest(dest);
 
     runInAction('update searchedPlans', () => {
-      this.searchPlans.replace(plans.map((plan) => {
-        return {
-          ...plan,
-          tags: plan.tags.split(','),
-          dests: plan.dests.split(','),
-          imgs: plan.imgs.split(',')
-        };
-      }));
+      this.searchPlans.replace(plans.map(this.formatPlan));
     });
   }
 
@@ -43,14 +43,7 @@ export default class PlanStore {
     const plans = await getPlanByTag(tag);
 
     runInAction('update searchedPlans', () => {
-      this.searchPlans.replace(plans.map((plan) => {
-        return {
-          ...plan,
-          tags: plan.tags.split(','),
-          dests: plan.dests.split(','),
-          imgs: plan.imgs.split(',')
-        };
-      }));
+      this.searchPlans.replace(plans.map(this.formatPlan));
     });
   }
 }
