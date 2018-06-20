@@ -58,7 +58,6 @@ export default class Search extends PureComponent {
     return (
       <div className={classnames('wt-search-wrapper', {'is-searching': searchActive})}>
         <Link to="/plan/create" className="left-wrapper">
-          发布
         </Link>
         <div className="input-wrapper">
           <div className="icon-search" />
@@ -67,14 +66,14 @@ export default class Search extends PureComponent {
             onClick={this.onInputActive}
             onChange={this.onInputChange}
             className="input-search"
-            placeholder="请输入目的地、主题"
+            placeholder="请输入目的地"
           />
         </div>
         <div className="right-wrapper">
           {
             searchActive && 
-              <div onClick={this.onInputDismiss}>取消</div> ||
-              <div>me</div>
+              <div className="btn-cancel" onClick={this.onInputDismiss}>取消</div> ||
+              <div className="icon-me"></div>
           }
         </div>
         <SearchResult
