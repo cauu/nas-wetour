@@ -1,6 +1,7 @@
 class Plan {
-  constructor(id, title, name, contact, gender=0, startAt, endAt, desc, dests="", tags="", imgs="") {
+  constructor(id, address, title, name, contact, gender=0, startAt, endAt, desc, dests="", tags="", imgs="") {
     this.id = id;
+    this.address = address;
     this.title = title;
     this.name = name;
     this.contact = contact;
@@ -19,7 +20,9 @@ class Plan {
 }
 
 class Article {
-  constructor(title, content, cover, author) {
+  constructor(id, address, title, content, cover, author) {
+    this.id = id;
+    this.address = address;
     this.title = title;
     this.content = content;
     this.author = author;
@@ -87,7 +90,7 @@ class PlanDB {
 
     author = author || Blockchain.transaction.from;
 
-    const article = new Article(title, content, cover, author);
+    const article = new Article(this.articleCounter, Blockchain.transaction.from, title, content, cover, author);
 
     this.articles.put(this.articleCounter, article);
     
@@ -106,6 +109,10 @@ class PlanDB {
     }
 
     return resp;
+  }
+
+  getArticleById(id) {
+    return this.articles.get(id);
   }
 
   /**
@@ -133,7 +140,7 @@ class PlanDB {
     /**
      * @desc 数组都使用逗号来进行分割
      */
-    const plan = new Plan(this.counter, title, name, contact, gender, startAt, endAt, desc, dests, tags, imgs);
+    const plan = new Plan(this.counter, Blockchain.transaction.from, title, name, contact, gender, startAt, endAt, desc, dests, tags, imgs);
 
     this.plans.put(this.counter, plan);
 
@@ -164,6 +171,19 @@ class PlanDB {
     if(this.plans.get(id)) {
       return this.plans.get(id);
     }
+  }
+
+  getMyPlan() {
+    const result = [];
+
+    for(let i = 0; i <= this.counter * 1; i++) {
+      const tmp = this.plans.get(i);
+      if(tmp && tmp.address === Blockchain.transaction.from) {
+        result.push(tmp);
+      }
+    }
+
+    return result;
   }
   
   listPlans() {

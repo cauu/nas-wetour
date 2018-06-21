@@ -6,6 +6,7 @@ import { Slot } from 'react-slot-fill';
 import PlanList from '../pages/plan-list';
 import PlanDetail from '../pages/plan-detail';
 import CreatePlan from '../pages/create-plan';
+import ArticleDetail from '../pages/article-detail';
 
 import { listArticles } from '../services/article';
 import { listPlans } from '../services/plan';
@@ -48,6 +49,8 @@ export default class PlanLayout extends Component {
             <Route path={`${match.url}/dest/:name`} render={(props) => <PlanList type="dest" {...props} />} />
             <Route path={`${match.url}/detail/:id`} component={PlanDetail} />
             <Route path={`${match.url}/create`} component={CreatePlan} />
+
+            <Route path={`${match.url}/article/:id`} component={ArticleDetail} />
           </React.Fragment>
         </Router>
       </GlobalContext.Provider>

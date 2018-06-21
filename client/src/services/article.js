@@ -4,6 +4,11 @@ async function listArticles() {
   return await nebGet('listArticles', '[]');
 }
 
+async function getArticleById(id) {
+  return await nebGet('getArticleById', `["${id}"]`);
+}
+
 export {
-  listArticles
+  listArticles,
+  getArticleById
 };
