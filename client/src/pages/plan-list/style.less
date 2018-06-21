@@ -1,12 +1,44 @@
 @import '../../styles/variables.less';
 .wt-pl-header {
+  position: relative;
   display: flex;
   height: 360px;
-  border: 1px solid black;
   justify-content: center;
   align-items: center;
   font-size: 60px;
-  font-weight: 500;
+  font-weight: 400;
+  color: white;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  .text {
+    z-index: 2;
+  }
+  &:after {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    content: '';
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  &.vehicle {
+    background-image: url('http://paga738og.bkt.clouddn.com/image/nas-wetour/tag-vehicle.jpeg');
+  }
+  &.boat {
+    background-image: url('http://paga738og.bkt.clouddn.com/image/nas-wetour/tag-boat.jpeg');
+  }
+  &.house {
+    background-image: url('http://paga738og.bkt.clouddn.com/image/nas-wetour/tag-house.jpg');
+  }
+  &.view-1 {
+    background-image: url('http://paga738og.bkt.clouddn.com/image/nas-wetour/view-default-1.jpeg');
+  }
+  &.view-2 {
+    background-image: url('http://paga738og.bkt.clouddn.com/image/nas-wetour/view-default-2.jpeg');
+  }
+  &.view-3 {
+    background-image: url('http://paga738og.bkt.clouddn.com/image/nas-wetour/view-default-3.jpeg');
+  }
 }
 
 .wt-pl-subtitle {

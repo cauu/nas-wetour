@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import { observer, inject } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd-mobile';
@@ -78,11 +79,15 @@ class PlanList extends Component {
     const { name } = match.params;
     const textOfType = this.typeText[type];
     const planList = planStore.searchPlans.toJS();
+    const isByTag = type === 'tag';
+    const defaultCover = `view-${Math.floor(Math.random() * 3 + 1)}`;
 
     return (
       <div>
-        <div className="wt-pl-header">
-          {type === 'tag' ? TAGS[name] : name}
+        <div className={classnames('wt-pl-header', {[name]: isByTag}, {[defaultCover]: !isByTag} )}>
+          <div className="text">
+            {isByTag ? TAGS[name] : name}
+          </div>
         </div>
 
         <div className="wt-pl-subtitle">

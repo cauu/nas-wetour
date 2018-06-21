@@ -45,7 +45,7 @@ export default class Home extends PureComponent {
   }
 
   render() {
-    const { planStore, articleStore } = this.props;
+    const { planStore, articleStore, history } = this.props;
     const planList = planStore.planList.toJS();
     const articleList = articleStore.articleList.toJS();
 
@@ -64,7 +64,7 @@ export default class Home extends PureComponent {
           >
             <Recommend dataSource={planList} />
 
-            <Article articles={articleList} />
+            <Article history={history} articles={articleList} />
           </Tabs>
         </StickyContainer>
       </div>
