@@ -7,6 +7,7 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import Article from './article';
 import Recommend from './recommend';
 import Search from './search';
+import Tags from './tag';
 
 import { extractDests } from '../../utils/index';
 
@@ -49,8 +50,10 @@ export default class Home extends PureComponent {
     const articleList = articleStore.articleList.toJS();
 
     return (
-      <React.Fragment>
+      <div className="wt-home-wrapper">
         <Search />
+
+        <Tags />
 
         <StickyContainer>
           <Tabs 
@@ -64,7 +67,7 @@ export default class Home extends PureComponent {
             <Article articles={articleList} />
           </Tabs>
         </StickyContainer>
-      </React.Fragment>
+      </div>
     );
   }
 }

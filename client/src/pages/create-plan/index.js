@@ -26,8 +26,7 @@ const Item = List.Item;
 const RadioItem = Radio.RadioItem;
 
 const themes = [
-  {value: 'dive', label: '潜水'},
-  {value: 'drive', label: '自驾'},
+  {value: 'boat', label: '拼船'},
   {value: 'vehicle', label: '拼车'},
   {value: 'room', label: '拼房'},
 ];

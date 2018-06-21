@@ -51,6 +51,7 @@ class PlanDetail extends Component {
                   src={img}
                   alt=""
                   style={{ width: '100%', verticalAlign: 'top' }}
+                  onError={(e)=>{e.target.src=defaultImg}}
                 />
               </a>
             );

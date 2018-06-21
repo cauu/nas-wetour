@@ -1,3 +1,38 @@
+.wt-home-wrapper {
+  .tag-wrapper {
+    display: flex;
+    justify-content: space-between;
+    height: 150px;
+    background: white;
+    margin-bottom: 20px;
+    .btn-tag {
+      display: flex;
+      width: 33%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .icon {
+        height: 50px;
+        width: 50px;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: contain;
+        &.boat {
+          background-image: url('../../images/icon-boat.png');
+        }
+        &.house {
+          background-image: url('../../images/icon-house.png');
+        }
+        &.vehicle {
+          background-image: url('../../images/icon-vehicle.png');
+        }
+      }
+      .text {
+      }
+    }
+  }
+}
+
 .wt-article-list {
   .al-item {
     position: relative;
