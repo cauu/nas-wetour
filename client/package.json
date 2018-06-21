@@ -36,6 +36,7 @@
     "react-slot-fill": "^2.0.1",
     "react-sticky": "^6.0.2",
     "redux": "^4.0.0",
+    "showdown": "^1.8.6",
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {

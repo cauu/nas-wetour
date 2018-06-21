@@ -7,7 +7,7 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import Article from './article';
 import Recommend from './recommend';
 import Search from './search';
-import Tags from './tag';
+import TagRow from './tag-row';
 
 import { extractDests } from '../../utils/index';
 
@@ -53,7 +53,7 @@ export default class Home extends PureComponent {
       <div className="wt-home-wrapper">
         <Search />
 
-        <Tags />
+        <TagRow history={this.props.history} />
 
         <StickyContainer>
           <Tabs 

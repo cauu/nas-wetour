@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const OrdinaryItem = ({ id, title, desc, dests, startAt, author, tags, onClick }) => (
+const OrdinaryItem = ({ id, title, desc, dests, startAt, name, tags, onClick }) => (
   <div className="ordinary-item">
     <Link to={`/plan/detail/${id}`}>
       <div className="outline-wrapper">
@@ -10,7 +10,7 @@ const OrdinaryItem = ({ id, title, desc, dests, startAt, author, tags, onClick }
       </div>
       <div className="detail-wrapper" onClick={onClick}>
         <div className="author">
-          {author}
+          {name}
         </div>
         <div className="dest">
           {`${dests} | ${startAt}`}
@@ -23,7 +23,7 @@ const OrdinaryItem = ({ id, title, desc, dests, startAt, author, tags, onClick }
   </div>
 );
 
-const RecommendItem = ({ id, title, startAt, author, tags, onClick }) => (
+const RecommendItem = ({ id, title, startAt, name, tags, onClick }) => (
   <div className="recommend-item">
     <Link to={`/plan/detail/${id}`}>
       <div className="outline-wrapper" onClick={onClick}>
@@ -37,7 +37,7 @@ const RecommendItem = ({ id, title, startAt, author, tags, onClick }) => (
       <div className="detail-wrapper">
         <div className="author">
           <span>By </span>
-          <span>{author}</span>
+          <span>{name}</span>
         </div>
         <div className="tags">
           {

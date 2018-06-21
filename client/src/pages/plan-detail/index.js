@@ -4,6 +4,8 @@ import { observer, inject } from 'mobx-react';
 import { Carousel } from 'antd-mobile';
 import { Fill } from 'react-slot-fill';
 
+import Tag from '../../components/tag';
+
 import defaultImg from './empty.jpg';
 
 import './style.less';
@@ -30,6 +32,10 @@ class PlanDetail extends Component {
   render() {
     const { planStore } = this.props;
     const { currPlan } = planStore;
+
+    const tags = currPlan.tags || [];
+
+    const hasTag = (type) => tags.indexOf(type) !== -1;
 
     return (
       <div className="plan-detail-wrapper">
@@ -71,9 +77,13 @@ class PlanDetail extends Component {
             <span>出发/结束日期</span>
             <span>{`${currPlan.startAt}/${currPlan.endAt}`}</span>
           </div>
-          <div className="row tag">
-            {currPlan.tags}
-          </div>
+          {
+            tags.length && <div className="row tag">
+              { hasTag('vehicle') && <Tag text="拼车" type="vehicle" /> }
+              { hasTag('house') && <Tag text="拼房" type="house" /> }
+              { hasTag('boat') && <Tag text="拼船" type="boat" /> }
+            </div>
+          }
           <div className="row desc">
             <div className="desc-title">行程简介</div>
             <div className="desc-subtitle">Description</div>

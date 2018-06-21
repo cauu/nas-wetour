@@ -28,7 +28,7 @@ const RadioItem = Radio.RadioItem;
 const themes = [
   {value: 'boat', label: '拼船'},
   {value: 'vehicle', label: '拼车'},
-  {value: 'room', label: '拼房'},
+  {value: 'house', label: '拼房'},
 ];
 
 @createForm()

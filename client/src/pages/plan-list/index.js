@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Tabs } from 'antd-mobile';
 import { StickyContainer, Sticky } from 'react-sticky';
 
+import { TAGS } from '../../components/tag';
+
 import List from './list';
 
 import './style.less'
@@ -80,7 +82,7 @@ class PlanList extends Component {
     return (
       <div>
         <div className="wt-pl-header">
-          {name}
+          {type === 'tag' ? TAGS[name] : name}
         </div>
 
         <div className="wt-pl-subtitle">
