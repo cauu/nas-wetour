@@ -1,8 +1,11 @@
 import React from 'react';
 
+const defaultCover = 'http://paga738og.bkt.clouddn.com/image/nas-wetour/article-cover-2.jpg%21p5';
+
 const ArticleItem = ({article, onClick}) => (
   <div className="al-item" onClick={onClick}>
     <div className="cover">
+      <img src={article.cover || defaultCover} />
       <div className="title">{article.title}</div>
       <div className="btn"></div>
     </div>

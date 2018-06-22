@@ -3,11 +3,13 @@ import NebPay from 'nebpay.js';
 
 import { isPC } from '../utils';
 
+const env = process.env.NODE_ENV;
+
 /**
  * @desc testnet or mainnet
  */
 const Account = Nebulas.Account;
-const net = 'https://testnet.nebulas.io';
+const net = env === 'development' && 'https://testnet.nebulas.io' || 'https://mainnet.nebulas.io';
 const CONTRACT_ADDRESS = 'n1o6mozqvmFkgDS4az3ikhjdyXdiWHcrc9t';
 const VALUE = '0';
 const NONCE = '0';

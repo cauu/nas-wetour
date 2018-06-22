@@ -196,7 +196,10 @@ if (envProduction) {
         new CopyWebpackPlugin([{
             from : path.join(project.basePath,'dll'),
             to   : path.join(project.basePath,'dist','dll')
-        }])
+        }]),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': project.env
+        })
     )
 }
 
