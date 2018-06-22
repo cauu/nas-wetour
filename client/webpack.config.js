@@ -140,7 +140,10 @@ if (envDevelopment) {
     )
     config.plugins.push(
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(project.env)
+        })
     )
 }
 
@@ -180,10 +183,7 @@ if (envProduction) {
             {
                 loader: 'less-loader',
                 options: {
-                    javascriptEnabled: true,
-                    modifyVars: {
-                        "@hd": "3px"
-                    }
+                    javascriptEnabled: true
                 }
             }
         ]
@@ -198,7 +198,7 @@ if (envProduction) {
             to   : path.join(project.basePath,'dist','dll')
         }]),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': project.env
+            'process.env.NODE_ENV': JSON.stringify(project.env)
         })
     )
 }
