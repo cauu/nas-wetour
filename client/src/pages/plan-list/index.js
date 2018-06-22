@@ -82,6 +82,9 @@ class PlanList extends Component {
     const isByTag = type === 'tag';
     const defaultCover = `view-${Math.floor(Math.random() * 3 + 1)}`;
 
+    const recommendPlans = (planList || []).filter((plan) => plan.recommend);
+    const ordinaryPlans = (planList || []).filter((plan) => !plan.recommend);
+
     return (
       <div>
         <div className={classnames('wt-pl-header', {[name]: isByTag}, {[defaultCover]: !isByTag} )}>
@@ -104,9 +107,17 @@ class PlanList extends Component {
             initialPage={0}
             renderTabBar={this.renderTabBar}
           >
-            <List type="recommend" onItemClick={this.onItemClick} dataSource={planList}/>
+            <List
+              type="recommend"
+              onItemClick={this.onItemClick}
+              dataSource={recommendPlans}
+            />
 
-            <List type="ordinary" onItemClick={this.onItemClick} dataSource={planList}/>
+            <List
+              type="ordinary"
+              onItemClick={this.onItemClick}
+              dataSource={ordinaryPlans}
+            />
           </Tabs>
         </StickyContainer>
       </div>

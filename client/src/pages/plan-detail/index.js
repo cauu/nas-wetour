@@ -71,6 +71,8 @@ class PlanDetail extends Component {
           <div className="row">
             <span className={`gender male`}></span>
             <span className="name">{currPlan.name}</span>
+          </div>
+          <div className="row">
             <span className="contact">{`联系方式: ${currPlan.contact}`}</span>
           </div>
           <div className="row date">

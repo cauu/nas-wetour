@@ -68,12 +68,31 @@
       position: relative;
       height: 400px;
       width: 100%;
-      border: 1px solid black;
       background-repeat: no-repeat;
       background-size: contain;
-      border-radius: 20px;
+      .cover {
+        position: absolute;
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        border-radius: 20px;
+        &:after {
+          content: '';
+          border-radius: 20px;
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          top: 0;
+          left: 0;
+          background: rgba(0, 0, 0, .2);
+        }
+      }
       .title {
         position: absolute;
+        color: white;
+        z-index: 2;
         width: 100%;
         text-align: center;
         font-size: 44px;
@@ -94,6 +113,7 @@
       margin-top: 15px;
       height: 90px;
       .author {
+        color: @font-color-middle;
         font-size: 30px;
         line-height: 50px; 
       }
@@ -114,7 +134,7 @@
       height: 300px;
       width: 100%;
       .avatar {
-        border: 1px solid black;
+        border: 1px solid @grey-light;
         position: absolute;
         height: 200px;
         width: 200px;
@@ -122,12 +142,15 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        background-repeat: no-repeat;
+        background-size: cover;
       }
     }
     .detail-wrapper {
       .author {
         line-height: 30px;
         font-size: 30px;
+        color: @font-color-dark;
       }
       .dest {
         color: @font-color-middle;
@@ -142,6 +165,7 @@
         padding: 20px;
         background: #f6f6f6;
         overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const OrdinaryItem = ({ id, title, desc, dests, startAt, name, tags, onClick }) => (
+import { TAGS } from '../../components/tag';
+
+const OrdinaryItem = ({ id, title, desc, dests, startAt, name, tags, onClick, imgs }) => (
   <div className="ordinary-item">
     <Link to={`/plan/detail/${id}`}>
       <div className="outline-wrapper">
-        <div className="avatar">
-        </div>
+        <div style={{backgroundImage: `url("${imgs && imgs[0] || ''}")`}} className="avatar" />
       </div>
       <div className="detail-wrapper" onClick={onClick}>
         <div className="author">
@@ -23,10 +24,11 @@ const OrdinaryItem = ({ id, title, desc, dests, startAt, name, tags, onClick }) 
   </div>
 );
 
-const RecommendItem = ({ id, title, startAt, name, tags, onClick }) => (
+const RecommendItem = ({ id, title, startAt, name, dests, tags, imgs, onClick }) => (
   <div className="recommend-item">
     <Link to={`/plan/detail/${id}`}>
       <div className="outline-wrapper" onClick={onClick}>
+        <div style={{backgroundImage: `url("${imgs && imgs[0] || ''}")`}} className="cover" />
         <div className="title">
           {title}
         </div>
@@ -42,8 +44,10 @@ const RecommendItem = ({ id, title, startAt, name, tags, onClick }) => (
         <div className="tags">
           {
             tags && tags.map((tag) => (
-              <span>#{tag}</span>
-            ))
+              <span> #{TAGS[tag]} </span>
+            ) || []).concat(dests && dests.map((dest) => (
+              <span> #{dest} </span>
+            )) || [])
           }
         </div>
       </div>

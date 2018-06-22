@@ -7,5 +7,11 @@ const onItemClick  = (item) => {
 }
 
 export default ({dataSource=[]}) => (
-  <PlanList type="recommend" onItemClick={onItemClick} dataSource={dataSource}/>
+  <PlanList
+    type="recommend"
+    onItemClick={onItemClick} 
+    dataSource={(dataSource || []).filter((data) => {
+      return !!data.recommend;
+    })}
+  />
 );
