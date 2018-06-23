@@ -28,6 +28,8 @@ export default class PlanStore {
   @action getPlanById = async (id) => {
     this.isLoading = true;
 
+    this.currPlan = {};
+
     const plan = await getPlanById(id);
 
     this.isLoading = false;
@@ -39,6 +41,8 @@ export default class PlanStore {
 
   @action getAllPlans = async () => {
     this.isLoading = true;
+
+    this.planList = [];
 
     const plans = await listPlans();
 
@@ -52,6 +56,8 @@ export default class PlanStore {
   @action searchPlanByDest = async (dest) => {
     this.isLoading = true;
 
+    this.searchPlans = [];
+
     const plans = await getPlanByDest(dest);
 
     this.isLoading = false;
@@ -63,6 +69,8 @@ export default class PlanStore {
 
   @action searchPlanByTag = async (tag) => {
     this.isLoading = true;
+
+    this.searchPlans = [];
 
     const plans = await getPlanByTag(tag);
 

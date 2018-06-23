@@ -18,6 +18,8 @@ export default class ArticleStore {
   @action getAllArticles = async () => {
     this.isLoading = true;
 
+    this.articleList = [];
+
     const articles = await listArticles();
 
     this.isLoading = false;
@@ -29,6 +31,8 @@ export default class ArticleStore {
 
   @action getArticleById = async (id) => {
     this.isLoading = true;
+
+    this.currArticle = {};
 
     const article = await getArticleById(id);
 
