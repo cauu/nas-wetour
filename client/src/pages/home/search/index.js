@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { observer, inject } from 'mobx-react';
 import classnames from 'classnames';
@@ -9,7 +9,7 @@ import './style.less';
 
 @inject('destStore')
 @observer
-export default class Search extends PureComponent {
+export default class Search extends Component {
   state = {
     searchActive: false,
     inputText: '',
@@ -72,9 +72,9 @@ export default class Search extends PureComponent {
         <div className="right-wrapper">
           {
             searchActive && 
-              <div className="btn-cancel" onClick={this.onInputDismiss}>取消</div> ||
-              <div className="icon-me"></div>
+              <div className="btn-cancel" onClick={this.onInputDismiss}>取消</div>
           }
+          { /* <div className="icon-me"></div> */ }
         </div>
         <SearchResult
           showPlaceHolder={inputText && !searched.length}

@@ -10,11 +10,13 @@ function createPlan(
   desc,
   dests="",
   tags="",
-  imgs=""
+  imgs="",
+  onStartHook
 ) {
   return nebPost('savePlan',
     `["${title}", "${name}", "${contact}", "${gender}", "${startAt}", "${endAt}", "${desc}", "${dests}", "${tags}", "${imgs}"]`,
-    0)
+    0,
+    onStartHook)
   ;
 }
 

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { observer, inject } from 'mobx-react';
 import { Tabs } from 'antd-mobile';
@@ -15,7 +15,7 @@ import './style.less';
 
 @inject('planStore', 'articleStore')
 @observer
-export default class Home extends PureComponent {
+export default class Home extends Component {
   static propTypes = {
     planStore: PropTypes.object,
     articleStore: PropTypes.object
@@ -62,9 +62,9 @@ export default class Home extends PureComponent {
             renderTabBar={this.renderTabBar}
             style={{background: 'black'}}
           >
-            <Recommend dataSource={planList} />
+            <Recommend dataSource={planList} loading={planStore.isLoading }/>
 
-            <Article history={history} articles={articleList} />
+            <Article loading={articleStore.isLoading} history={history} articles={articleList} />
           </Tabs>
         </StickyContainer>
       </div>

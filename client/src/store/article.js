@@ -13,9 +13,14 @@ const converter = new showdown.Converter();
 export default class ArticleStore {
   @observable articleList = [];
   @observable currArticle = {};
+  @observable isLoading = false;
 
   @action getAllArticles = async () => {
+    this.isLoading = true;
+
     const articles = await listArticles();
+
+    this.isLoading = false;
 
     runInAction('update, articleList', () => {
       this.articleList.replace(articles);
@@ -23,7 +28,11 @@ export default class ArticleStore {
   }
 
   @action getArticleById = async (id) => {
+    this.isLoading = true;
+
     const article = await getArticleById(id);
+
+    this.isLoading = false;
 
     runInAction('update currArticle', () => {
       this.currArticle = article && {

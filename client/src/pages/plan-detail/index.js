@@ -48,10 +48,11 @@ class PlanDetail extends Component {
         >
         {
           ((currPlan && currPlan.imgs) 
-              || [defaultImg]).map((img) => {
+              || [defaultImg]).map((img, idx) => {
             return (
               <a
-              style={{ display: 'inline-block', width: '100%', height: '60vw'}}
+                key={idx}
+                style={{ display: 'inline-block', width: '100%', height: '60vw'}}
               >
                 <img
                   src={img}

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Loading from '../../../components/loading';
+
 const defaultCover = 'http://paga738og.bkt.clouddn.com/image/nas-wetour/article-cover-2.jpg%21p5';
 
 const ArticleItem = ({article, onClick}) => (
@@ -12,10 +14,11 @@ const ArticleItem = ({article, onClick}) => (
   </div>
   );
 
-export default ({articles = [], history}) => (
+export default ({articles = [], history, loading}) => (
   <div className="wt-article-list">
     {articles.map((article) => (
       <ArticleItem onClick={() => history.push(`/plan/article/${article.id}`)} article={article}/>
     ))}
+    <Loading loading={loading} />
   </div>
 );

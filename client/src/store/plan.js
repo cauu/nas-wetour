@@ -17,6 +17,7 @@ export default class PlanStore {
   @observable planList = [];
   @observable searchPlans = [];
   @observable currPlan = {};
+  @observable isLoading = false;
   formatPlan = (plan) => ({
     ...plan,
     tags: plan.tags.split(','),
@@ -25,7 +26,11 @@ export default class PlanStore {
   })
 
   @action getPlanById = async (id) => {
+    this.isLoading = true;
+
     const plan = await getPlanById(id);
+
+    this.isLoading = false;
 
     runInAction('update currPlan', () => {
       this.currPlan = this.formatPlan(plan);
@@ -33,7 +38,11 @@ export default class PlanStore {
   }
 
   @action getAllPlans = async () => {
+    this.isLoading = true;
+
     const plans = await listPlans();
+
+    this.isLoading = false;
 
     runInAction('update planList', () => {
       this.planList.replace(plans.map(this.formatPlan));
@@ -41,7 +50,11 @@ export default class PlanStore {
   }
 
   @action searchPlanByDest = async (dest) => {
+    this.isLoading = true;
+
     const plans = await getPlanByDest(dest);
+
+    this.isLoading = false;
 
     runInAction('update searchedPlans', () => {
       this.searchPlans.replace(plans.map(this.formatPlan));
@@ -49,10 +62,14 @@ export default class PlanStore {
   }
 
   @action searchPlanByTag = async (tag) => {
+    this.isLoading = true;
+
     const plans = await getPlanByTag(tag);
+
+    this.isLoading = false;
 
     runInAction('update searchedPlans', () => {
       this.searchPlans.replace(plans.map(this.formatPlan));
     });
   }
-}
+} 

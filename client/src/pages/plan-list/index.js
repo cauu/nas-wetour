@@ -111,12 +111,14 @@ class PlanList extends Component {
               type="recommend"
               onItemClick={this.onItemClick}
               dataSource={recommendPlans}
+              loading={planStore.isLoading}
             />
 
             <List
               type="ordinary"
               onItemClick={this.onItemClick}
               dataSource={ordinaryPlans}
+              loading={planStore.isLoading}
             />
           </Tabs>
         </StickyContainer>

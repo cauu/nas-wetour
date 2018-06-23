@@ -38,7 +38,7 @@ export default class DestStore {
    * 获取包含关键字的所有地点,并按parent进行分类
    */
   @action autoCompleteDest = (input) => {
-    const hasInput = (text) => text.includes(input);
+    const hasInput = (text) => text.indexOf(input) > -1;
 
     return this.destList.filter(({name, children}) => {
       return hasInput(name) || children.filter((c) => hasInput(c.name)).length > 0;

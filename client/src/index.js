@@ -1,4 +1,5 @@
 import React from 'react'
+import 'babel-polyfill';
 import { render } from 'react-dom'
 import { HashRouter } from 'react-router-dom'
 import { Provider as SlotProvider } from 'react-slot-fill';
@@ -17,9 +18,11 @@ class App extends React.Component {
         return (
             <MobxProvider {...rootStore}>
                 <SlotProvider>
-                    <div className="app-container">
-                        <Routers />
-                    </div>
+                    {
+                        <div className="app-container">
+                            <Routers />
+                        </div>
+                    }
                 </SlotProvider>
             </MobxProvider>
         );

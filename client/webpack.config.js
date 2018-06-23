@@ -40,8 +40,11 @@ const config = {
                 use : {
                     loader: 'babel-loader?cacheDirectory'
                 },
-                include: SRC_DIR,
-                exclude: /node_modules/
+                include: [
+                    SRC_DIR,
+                    /node_modules\/nebpay.js/
+                ],
+                exclude: /node_modules\/(?!(nebpay.js)\/).*/
             },
             {
                 test    : /\.(png|jpe?g|gif|svg)(\?.*)?$/,

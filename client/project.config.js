@@ -9,5 +9,16 @@ module.exports = {
     publicPath : './',
     sourceMap  : NODE_ENV == 'development' ? true : false,
     externals  : {},
-    vendor     : ['react', 'react-dom', 'react-router-dom', 'react-loadable', 'mobx', 'mobx-react', 'crypto-js', 'js-cookie', 'redux', 'react-redux']
+    vendor     : [
+        'babel-polyfill',
+        'react',
+        'react-dom',
+        'react-router-dom',
+        'react-loadable',
+        'mobx',
+        'mobx-react',
+        'crypto-js',
+        'js-cookie',
+        'redux',
+        'react-redux']
 }

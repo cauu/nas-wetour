@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { TAGS } from '../../components/tag';
+import Loading from '../../components/loading';
 
 const OrdinaryItem = ({ id, title, desc, dests, startAt, name, tags, onClick, imgs }) => (
   <div className="ordinary-item">
@@ -55,14 +56,15 @@ const RecommendItem = ({ id, title, startAt, name, dests, tags, imgs, onClick })
   </div>
 );
 
-export default ({ type='ordinary', dataSource, onItemClick=() => {} }) => (
+export default ({ type='ordinary', dataSource, onItemClick=() => {}, loading }) => (
   <div className="wt-pl-list">
     {
-      type === 'recommend' && dataSource.map((data) => (
-        <RecommendItem onClick={() => onItemClick(data)} {...data}/>
-      )) || dataSource.map((data) => (
-        <OrdinaryItem onClick={() => onItemClick(data)} {...data}/>
+      type === 'recommend' && dataSource.map((data, index) => (
+        <RecommendItem key={index} onClick={() => onItemClick(data)} {...data}/>
+      )) || dataSource.map((data, index) => (
+        <OrdinaryItem key={index} onClick={() => onItemClick(data)} {...data}/>
       ))
     }
+    <Loading loading={loading} />
   </div>
 );

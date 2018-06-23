@@ -75,7 +75,7 @@ const _queryByHash = async (hash) => {
   const receipt = await neb.api.getTransactionReceipt({hash});
 
   return new Promise((resolve, reject) => {
-    if(receipt.status === 1) {
+    if(receipt.status === 1 || receipt.status === 2) {
       resolve(receipt);
     }
     if(receipt.status === 0) {
@@ -94,7 +94,7 @@ const _queryByHash = async (hash) => {
  * 成功时，函数返回{status: 'success', serialNumber}
  * 失败时，函数返回{status: 'fail', serialNumber}
  */
-const nebPost = (callFunc, callArgs, value) => {
+const nebPost = (callFunc, callArgs, value, onStartHook) => {
   return new Promise((resolve, reject) => {
     const serialNumber = nebPay.call(CONTRACT_ADDRESS, value, callFunc, callArgs, {
       listener: (res) => {
@@ -107,13 +107,19 @@ const nebPost = (callFunc, callArgs, value) => {
           const hash = res.txhash;
 
           let retry = 0;
+          let isPendding = false;
 
           let timer = setInterval(async () => {
             try {
               if(retry > MAX_RETRY) throw new Error('Timeout Error');
               const receipt = await _queryByHash(hash);
               retry++;
-              if(receipt) {
+              const { status } = receipt;
+              if(status === 2 && !isPendding) {
+                isPendding = true;
+                onStartHook && onStartHook(receipt);
+              }
+              if(receipt && status === 1) {
                 clearInterval(timer);
                 timer = null;
                 resolve({ status: 'success', serialNumber, receipt });
@@ -134,6 +140,7 @@ const nebPost = (callFunc, callArgs, value) => {
        * 如果成功提交，则调用queryByHash函数获取收据
        */
       let retry = 0;
+      let isPendding = false;
 
       let queryTimer = setInterval(async () => {
         try {
@@ -150,7 +157,12 @@ const nebPost = (callFunc, callArgs, value) => {
                 if(retry > MAX_RETRY) throw new Error('Timeout Error');
                 const receipt = await _queryByHash(hash);
                 retry++;
-                if(receipt) {
+                const { status } = receipt;
+                if(status === 2 && !isPendding) {
+                  isPendding = true;
+                  onStartHook && onStartHook(receipt);
+                }
+                if(receipt && status === 1) {
                   clearInterval(timer);
                   timer = null;
                   resolve({ status: 'success', serialNumber, receipt });

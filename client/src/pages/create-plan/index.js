@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import { createForm } from 'rc-form';
 import { Fill } from 'react-slot-fill';
@@ -32,7 +32,7 @@ const themes = [
 ];
 
 @createForm()
-export default class CreatePlan extends PureComponent {
+export default class CreatePlan extends  Component {
   state = {
     theme: '',
     loading: false,
@@ -72,10 +72,6 @@ export default class CreatePlan extends PureComponent {
         return;
       }
 
-      this.setState({
-        loading: true
-      });
-
       try {
         const result = await createPlan(
           value.title,
@@ -87,7 +83,12 @@ export default class CreatePlan extends PureComponent {
           value.desc,
           extractDests(value.desc).join(',') || '',
           this.state.theme,
-          this.state.files.map((f) => f.url).join(',')
+          this.state.files.map((f) => f.url).join(','),
+          () => {
+            this.setState({
+              loading: true
+            });
+          }
         );
 
         this.setState({
@@ -98,6 +99,8 @@ export default class CreatePlan extends PureComponent {
       } catch(e) {
         this.setState({
           loading: false
+        }, () => {
+          Toast.fail('行程创建失败', 5, () => {}, true);
         });
       }
     });
